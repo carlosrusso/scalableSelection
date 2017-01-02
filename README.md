@@ -1,9 +1,18 @@
 # Scalable selection in large datasets in CDF’s FilterComponent
 
-The services team periodically asks for selectors that support inversion of selection, in paginated scenarios. This is however a particular case around expressing the selected items as a list of included terms and a list of excluded terms.
-The naive approach involves modifying CDF's FilterComponent to capture the intention of the user and writing a ktr that generates an MDX query.
+## Summary
 
-## The problem to solve
+The services team periodically asks for selectors that support inversion of selection, in paginated scenarios. 
+This is however a particular case around expressing the selected items as a list of included terms and a list of excluded terms.
+Alternatively, one could express a selection as a set of conditions.
+
+We propose 
+
+The naive approach involves modifying CDF's FilterComponent to capture the intention of the user and writing a PDI transformation that patches an MDX expression into a query template, eventually running the resulting query.
+
+The same approach would probaly also work for SQL datasources, but such explorations may not be possible in the 3-day timeframe of this hackathon.
+
+## Introduction
 
 The `FilterComponent` is an extensible component designed for selecting items or groups of items from a list, and which is bundled with CDF.
 
@@ -11,62 +20,181 @@ The current behavior is merely inclusive: the user selects which items should be
 
 Some customers have however shown interest in operations such as:
 
-1. Selection all items except a few items
+1. Select all items except a few items
 2. Toggling the selection
 
 If the dataset is small enough to fit the client device, all the items in the list are known and it is possible to keep the extensional approach. Toggling the selection simply means that the selection state of each item is flipped.
 
 However, as soon as the dataset becomes large and pagination is activated, the component does not have immediate access to the full list of items and cannot thus generate the extensive list of items included in the selection. An intensional approach must thus be followed.
 
-In this case, the use cases above can be implemented by expressing the selection with two clauses: the list of explicity included items and the list of excluded items:
+In this case, the operations above can be implemented by expressing the selection with two clauses: the list of explicity included items and the list of excluded items.
 
-1. `[Bananas, Pears, Strawberries]`
-2. `[All fruits]` except `[Apples, Oranges]`
-3. `[Cakes, [All fruits]` except `[Apples, Oranges], Potatoes]`
+Take the following example, inspired in a single-level MDX dimension 'Fruits', containing all known fruits. The `id` of each node in the filter is thus populated with the corresponding fully qualified name. 
+Two possible selection states would be:
 
-To materialize the user’s selection into the correct dataset some extra interaction with the server and the datasource at play are necessary, because only these entities have access to the full dataset.
+1. `[ '[Fruits].[Orange]', '[Fruits].[Pear]', '[Fruits.Strawberry]' ]`
+2. `[ '[Fruits]' ]` except `[ '[Fruits].[Apple]', '[Fruits].[Banana]' ]`
 
-## Background: What we can leverage
+To materialize the user’s selection into the correct dataset, the selection state must be conveyed to the server (and to the datasource at play).
+To properly support the second case, the selection state must be serialized into something else than an array of identifiers.
 
-VizAPI 3.0 already contains a set of classes (pentaho.type.filter) for expressing a condition intensionally in a disjunctive normal form (ORs of ANDs).
+VizAPI 3.0 already contains a set of classes (under `pentaho.type.filter`) for expressing a condition intensionally in a disjunctive normal form (ORs of ANDs): 
 
-Here, we can use these classes (or follow a similar approach) but restrict the set of operator to be used to AND, OR, NOT and IsIN. For instance, the example above could be expressed as:
+    A OR (B AND C) OR (NOT D)  
 
-1. `IsIn([Bananas, Pears, Strawberries])`
-2. `IsIn([All fruits]) AND NOT IsIN([Apples, Oranges])`
-3. `IsIn([Cakes) OR ( IsIN([All fruits]) AND NOT IsIN([Apples, Oranges]) )`
+The examples of selection states above can be rewritten using a subset of the filter classes: the operators `AND`, `OR`, `NOT` and `IsIn`. For instance, the example above could be expressed as:
 
-By wrapping a real-life datasource in a magical PDI transformation, it should be possible to assemble the correct statements for both MDX and SQL datasources.
+1. `IsIn('id', ['[Fruits].[Orange]', '[Fruits].[Pear]', '[Fruits].[Strawberry]'])`
+2. `IsIn('id',['Fruits']) AND NOT IsIn('id', ['Fruits].[Apple]', '[Fruits].[Banana]'])`
 
-The services team at Portugal has some experience with real-life scenarios and has invested some effort towards implementing some of these ideas with specific customers.
+We need only to augment the backend with the capability to transform these expressions into the equivalent MDX statements.
 
-## Proof of Concept
+
+## Proof of concept, using an MDX datasource
+
+Have a CDE dashboard with a `FilterComponent` and a `TableComponent`.
+
+The `FilterComponent` is set up to initially show 10% of the data. 
+
+Let the user select a bunch of items from the list. The user should be able to select all items except a few, and invert the selection state within a group of items.
+As the user scrolls down, more items are loaded, and their selection state should be coherent with the intention that the user expressed previously (if he/she clicked “select all”, the new items must be shown as selected).
+
+The table reacts to the changes of the `FilterComponent` and displays data concerning the items that match the selection. 
+
+To do that, the user writes the following query template for the table:
+
+```
+WITH
+  SET [COLS] AS {[Measures].[Sales]}
+  ${SetFilterExpression}
+
+SELECT
+  [COLS] ON COLUMNS,
+  [ROW_SET] ON ROWS
+FROM [SteelWheelsSales]
+```
+
+then, depending on the state of the filter, the parameter `SetFilterExpression` assumes different values:
+
+```
+-- Single dimension, a given set of items 
+SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}
+
+-- Single dimension, ALL items 
+SET ROW_SET as [Markets].[City].MEMBERS
+
+-- Single dimension, EXCLUDE a given set of items 
+SET Items as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}
+SET ROW_SET as EXCEPT([Markets].[City].MEMBERS, Items)
+```
+
+As a result, the table is fed with a variable number of items.
+
+The only inovation here is the fact that a string holding an expression was transformed into a set of MDX statements: a set `ROW_SET` was created behind the scenes.
+ 
+Since the `FilterComponent` supports groups of options, it could be populated with a set of dimensions and its members. In that case, the MDX statements such as the following could be generated: 
+ 
+```
+SET Items as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}
+SET Line as {[Product Line].[Line].[Planes]}
+SET ROW_SET as EXCEPT([Markets].[City].MEMBERS, Items) *  EXCEPT([Product Line].[Line].MEMBERS, Line) * ...
+```
+
+where each additional dimension introduces a `CROSSJOIN`.
+In the case NULLs are to be eliminated, `NONEMPTYCROSSJOIN` could be used instead.
+
+```
+SET Items as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}
+SET Line as {[Product Line].[Line].[Planes]}
+SET ROW_SET as NONEMPTYCROSSJOIN(EXCEPT([Markets].[City].MEMBERS, Items), EXCEPT([Product Line].[Line].MEMBERS, Line))
+```
+
+By further manipulating `ROW_SET`, more complex query template could be built.
+
+
+## Tasks
 
 The main effort around this project will most likely be the discussion of how to capture the user’s intention.
 
 The actual implementation of the project will probably consist of the following:
 
-1. Enrich a custom version of the FilterComponent with UX elements and logic that allows capturing the user’s intention. A simple approach could be a button that toggles the type of selection to occur in a given group (inclusion or exclusion), but I suspect more should be possible, especially if a UX person joins this project
-2. Create a function that exports the selection as a serialized pentaho.type.filter object.
-3. Create a PDI transformation that transforms the serialized pentaho.type.filter object into the correct MDX/SQL.
+1. Enrich a custom version of the `FilterComponent` with UX elements and logic that allows capturing the user’s intention. A simplistic approach could be a button that toggles the type of selection to occur in a given group (inclusion or exclusion)
+2. Customize the `FilterComponent` to export the selection as a serialized `pentaho.type.filter` object.
+3. Create a PDI transformation (or a custom datasource driver) that accepts a serialized `pentaho.type.filter` object, and transforms it into the correct MDX/SQL snippet. The generated snippet is then injected into a query template supplied by the user. The corresponding query is executed and the results are returned.
 
-Given the limited time, we should focus first on MDX, which ought to be easier.
 
-## Example
+## Possible colateral benefits
 
-Have a CDE dashboard with a FilterComponent and a TableComponent.
+### Simpler MDX query templates
 
-The FilterComponent initially shows 10% of the data, and let the user select a bunch of items from the list. The user should be able to select all items except a few, and invert the selection state within a group of items.
+Currently, the CDF/CDA transform a list of items to a CSV string.
+MDX has limited semantics to combine two arbitrary lists of items.
+Implementors sometimes struggle with overly complicated queries that circumvent those limitations.
 
-As the user scrolls down, more items are loaded, and their selection state should be coherent with the intention that the user expressed previously (if he/she clicked “select all”, the new items must be shown as selected).
+In contrast, by de-serializing the `pentaho.type.filter` expressions, several expressions can be combined and manipulated prior to triggering the server requests.
+This has the potential of shifting some of the logic outside of the queries, which might lead to simpler queries and faster development cycles.
 
-The TableComponent reacts to the changes of the FilterComponent and displays the data that match the selection. The TableComponent uses the magical ktr as a datasource, which in turn consumes the expression output by the FilterComponent.
+### SQL 
+The same approach can probably be readily extended to SQL datasources, with little effort. Stretch goal?
 
-## Possible benefits
 
-Things that this work may allow us to do with none or some extra effort.
+## Appendix: notes on `pentaho.type.filter`
+The examples provided above were writen in a pseudo-code syntax.
+As of January 2017, the serializations are as follows:
 
-## Notes on MDX
+### List of included items
+The expression
+
+`IsIn('id', ['[Fruits].[Orange]', '[Fruits].[Pear]', '[Fruits].[Strawberry]'])`
+
+would be serialized as:
+
+```
+{
+  "_": "pentaho/type/filter/isIn",
+  "property": "id",
+  "values": [
+    {_: "string", v: "[Fruits].[Orange]"},
+    {_: "string", v: "[Fruits].[Pear]"},
+    {_: "string", v: "[Fruits].[Strawberry]"},
+  ]
+}
+```
+
+### List with excluded items
+The expression
+
+`IsIN('id','Fruits') AND NOT IsIN('id', ['[Fruits.Apple', '[Fruit.Banana'])`
+
+would be serialized as:
+
+```
+  {
+    "_": "pentaho/type/filter/and",
+    "operands": [
+      {
+        "_": "pentaho/type/filter/isEqual",
+        "property": "id",
+        "value": {_: "string", v: "[Fruits]"}
+      },
+      {
+        "_": "pentaho/type/filter/not",
+        "operand":  {
+		        "_": "pentaho/type/filter/isIn",
+		        "property": "id",
+		        "values": [
+		          {_: "string", v: "[Fruits].[Apple]"},
+		          {_: "string", v: "[Fruits].[Banana]"}
+		        ]
+        }
+      }
+    ]
+  }
+```
+
+
+
+## Appendix: notes on MDX
 
 To refer to a set of members, MDX distinguishes the following cases:
 
@@ -78,6 +206,46 @@ To refer to a set of members, MDX distinguishes the following cases:
 
 This distinction implies that our magic code must branch at some point to generate the correct snippet of MDX.
 
+### Example
+
+Assuming the user writes the following query template:
+
+```
+WITH
+
+SET [COLS] AS {[Measures].[Sales]}
+
+${SetFilterExpression}
+
+SELECT
+  [COLS] ON COLUMNS,
+  [ROW_SET] ON ROWS
+FROM [SteelWheelsSales]
+```
+
+Depending on the state of the filter, the parameter `SetFilterExpression` assumes different values:
+
+```
+-- Single dimension, a given set of items 
+SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}
+
+-- Single dimension, ALL items 
+SET ROW_SET as [Markets].[City].MEMBERS
+
+-- Single dimension, EXCLUDE a given set of items 
+SET Items as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}
+SET ROW_SET as EXCEPT([Markets].[City].MEMBERS, Items)
+
+
+-- Other examples, for multiple dimensions
+SET ROW_SET as NONEMPTYCROSSJOIN(EXCEPT([Markets].[City].MEMBERS, Items), EXCEPT([Product Line].[Line].MEMBERS, Line))
+
+SET ROW_SET as CROSSJOIN(EXCEPT([Markets].[City].MEMBERS, Items), EXCEPT([Product Line].[Line].MEMBERS, Line))
+
+SET ROW_SET as EXCEPT([Markets].[City].MEMBERS, Items) *  EXCEPT([Product Line].[Line].MEMBERS, Line) * ...
+```
+
+<!--
 ### Use case ALL MEMBERS == NO MEMBERS
 #### Template
 Parameters: 
@@ -133,19 +301,24 @@ SELECT
 FROM [${cube}]
 ```
 
- Instance
--- ${levelParam} = [Product].[Line];     {${memberParam}} = {[cars],[motos,[boat]}
+#### Instance
+Parameters:
+
+* ${levelParam} = [Product].[Line];     
+* {${memberParam}} = {[cars],[motos,[boat]}
+
+```
 WITH
+  MEMBER [Measures].[PL] AS [Product].[Line].CURRENTMEMBER.Name
 
-MEMBER [Measures].[PL] AS [Product].[Line].CURRENTMEMBER.Name
-
-SET [COLUMN_SET] AS [Measures].[PL]
-SET [ROW_SET] AS {${levelParam}}.{${memberParam}}
+  SET [COLUMN_SET] AS [Measures].[PL]
+  SET [ROW_SET] AS {${levelParam}}.{${memberParam}}
 
 SELECT
   [COLUMN_SET] ON COLUMNS,
   [ROW_SET] ON ROWS
 FROM [SteelWheelsSales]
+```
 
 ### Use case: AGG (MEMBER ALL)
 ### Template
@@ -250,32 +423,4 @@ SELECT
 FROM [SteelWheelsSales]
 ```
 
-#### Example 2
-
-Query template:
-
-```
-WITH
-
-SET [COLS] AS {[Measures].[Sales]}
-
-${SetFilterExpression}
-
-SELECT
-  [COLS] ON COLUMNS,
-  [ROW_SET] ON ROWS
-FROM [SteelWheelsSales]
-```
-
-Possible values for `SetFilterExpression`
-
-```
--- Single dimension 
-SET ROW_SET as EXCEPT([Markets].[City].MEMBERS, Items)
-SET ROW_SET as [Markets].[City].MEMBERS
-
--- Multiple dimensions
-SET ROW_SET as NONEMPTYCROSSJOIN(EXCEPT([Markets].[City].MEMBERS, Items), EXCEPT([Product Line].[Line].MEMBERS, Line))
-SET ROW_SET as CROSSJOIN(EXCEPT([Markets].[City].MEMBERS, Items), EXCEPT([Product Line].[Line].MEMBERS, Line))
-SET ROW_SET as EXCEPT([Markets].[City].MEMBERS, Items) *  EXCEPT([Product Line].[Line].MEMBERS, Line) * ...
-```
+-->
