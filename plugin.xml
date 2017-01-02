@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin title="scalableSelection" loader="DEFAULT">
+<overlays>
+		<overlay id="startup.scalableSelection" resourcebundle="content/scalableSelection/resources/lang/messages">
+			<menubar id="toolsmenu">
+	        	<menuitem id="scalableSelection" label="${Launcher.scalableSelection}" command="mantleXulHandler.openUrl('${Launcher.scalableSelection}','${Launcher.scalableSelection_TOOLTIP}','plugin/scalableSelection/api/default')"/>
+	      	</menubar>
+	    </overlay>
+	</overlays>
+	<lifecycle-listener class="pt.webdetails.cpk.CpkLifecycleListener"/>
+	<static-paths>
+		<static-path url="/scalableSelection/static" localFolder="static"/>
+		<static-path url="/scalableSelection/resources" localFolder="resources"/>
+	</static-paths>
+
+    <external-resources>
+        <file context="requirejs">api/repos/scalableSelection/resources/components/components-require-js-cfg.js</file>
+    </external-resources>
+
+	<content-types>
+		<content-type>
+			<title>ScalableSelection</title>
+			<description></description>
+			<company name="" url="" logo="@PLUGIN_COMPANY_LOGO@"></company>
+		</content-type>
+	</content-types>
+	<content-generator
+		id="scalableSelection"
+		title="ScalableSelection"
+		type="scalableSelection"
+		class="pt.webdetails.cpk.CpkContentGenerator"/>
+	<!-- Menu entry -->
+	<menu-items>
+		<!--<menu-item id="scalableSelection_main" anchor="tools-submenu" label="ScalableSelection" command="content/scalableSelection/" type="MENU_ITEM" how="LAST_CHILD"/>-->
+	</menu-items>
+</plugin>

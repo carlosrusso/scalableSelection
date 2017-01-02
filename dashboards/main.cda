@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDADescriptor>
+   <DataSources>
+      <Connection id="swQuery" type="mondrian.jndi">
+         <Catalog>mondrian:/SteelWheels</Catalog>
+         <Jndi>SampleData</Jndi>
+      </Connection>
+   </DataSources>
+   <DataAccess access="public" connection="swQuery" id="swQuery" type="mdx">
+      <Name>swQuery</Name>
+      <BandedMode>compact</BandedMode>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters/>
+      <Query><![CDATA[WITH
+MEMBER [Measures].[PL] AS [Product].[Line].CURRENTMEMBER.Name
+
+SET [COLUMN_SET] AS {[Measures].[PL]}
+SET [ROW_SET] AS {[Product].[Line].MEMBERS}
+
+SELECT
+  [COLUMN_SET] ON COLUMNS,
+  [ROW_SET] ON ROWS
+FROM [SteelWheelsSales]]]></Query>
+   </DataAccess>
+</CDADescriptor>
