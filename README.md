@@ -425,3 +425,54 @@ FROM [SteelWheelsSales]
 
 -->
 
+# Organization
+
+## Use cases
+
+### Invert the current selection 
+This is not currently possible.
+
+The inversion can be done per-group, and acts recursively on any subgroups.
+
+Possible transitions
+  * NONE -> ALL
+  * ALL -> NONE
+  * INCLUDE -> EXCLUDE
+  * EXCLUDE -> INCLUDE
+
+Note: This assumes the filter does not discard downloaded items. It could only discard items that are compatible with the current state of the group. When the filter is in INCLUDE or EXCLUDE modes, the absent items are all assumed to be in the same state (unselected or selected, respectively)
+
+### Select all
+
+Selecting all items marks both the currently downloaded items as selected, as well as the items on the server. 
+This means that the selection of a group cannot be strictly inferred from the state of the currently downloaded children.
+
+# Random stuff
+
+Possible states: NONE, INCLUDE, EXCLUDE, ALL
+
+1. Clearing the group selection -> switch to NONE
+2. Setting the group selection -> switch to ALL
+
+1. Setting the group selection -> switch to ALL
+2. Clearing the group selection -> switch to NONE
+
+1. Clearing the group selection -> switch to NONE
+2. Clicking on a item (select) -> switch from NONE to INCLUDE
+
+1. Setting the group selection -> switch to ALL
+2. Clicking on a item (unselect) -> switch from ALL to EXCLUDE
+
+
+
+
+INCLUDE
+
+
+
+
+
+EXCLUDE
+
+SET [ROW_SET] as {EXCEPT(DESCENDANTS([PAI].MEMBERS, [PAI].[FILHO]),{[PAI].[Filho1].[1.2],[PAI].[Filho2].[2.2]})}
+
