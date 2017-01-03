@@ -16,6 +16,185 @@
     "typeDesc": "<i>Group</i>"
    },
    {
+    "id": "a4e3a8df-55ca-e8cf-086e-37737c7babe5",
+    "parent": "SELECTORS",
+    "properties": [
+     {
+      "name": "name",
+      "type": "Id",
+      "value": "filterSimple"
+     },
+     {
+      "name": "title",
+      "type": "String",
+      "value": "Hierarchy"
+     },
+     {
+      "name": "parameter",
+      "type": "Parameter",
+      "value": "${p:paramSelection}"
+     },
+     {
+      "name": "listeners",
+      "type": "Listeners",
+      "value": "[]"
+     },
+     {
+      "name": "parameters",
+      "type": "ValuesArray",
+      "value": "[]"
+     },
+     {
+      "name": "valueAsId",
+      "type": "Boolean",
+      "value": "false"
+     },
+     {
+      "name": "outputFormat",
+      "type": "outputFormatCustom",
+      "value": "lowestID"
+     },
+     {
+      "name": "dataSource",
+      "type": "Datasource",
+      "value": "swQuerySimple"
+     },
+     {
+      "name": "valuesArray",
+      "type": "ValuesArray",
+      "value": "[]"
+     },
+     {
+      "name": "priority",
+      "type": "Integer",
+      "value": 5
+     },
+     {
+      "name": "alwaysExpanded",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "multiselect",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "selectionLimit",
+      "type": "Integer",
+      "value": 200
+     },
+     {
+      "name": "pageSize",
+      "type": "Integer",
+      "value": "10"
+     },
+     {
+      "name": "showIcons",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "showButtonOnlyThis",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "useOverlay",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "showFilter",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "htmlObject",
+      "type": "HtmlObject",
+      "value": "${h:filterSimpleObj}"
+     },
+     {
+      "name": "executeAtStart",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "preExecution",
+      "type": "JavaScript",
+      "value": ""
+     },
+     {
+      "name": "postExecution",
+      "type": "JavaScript",
+      "value": ""
+     },
+     {
+      "name": "postFetch",
+      "type": "JavaScript",
+      "value": ""
+     },
+     {
+      "name": "preChange",
+      "type": "JavaScript",
+      "value": ""
+     },
+     {
+      "name": "postChange",
+      "type": "JavaScript",
+      "value": ""
+     },
+     {
+      "name": "postUpdate",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "renderRootHeader",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "renderRootSelection",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "renderRootFooter",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "renderGroupSelection",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "renderItemSelection",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "sortGroup",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "sortItem",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "options",
+      "type": "JavaScript",
+      "value": "function options(){\n    return {\n        input: {\n            indexes: [{\n                id: 1,\n                label:2\n            }]\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
+     }
+    ],
+    "rowName": "Scalable Filter Component",
+    "type": "ComponentsScalableFilterComponent",
+    "typeDesc": "Scalable Filter Component"
+   },
+   {
     "id": "d770e053-c916-f2d2-2e84-d6bc5d1efcbf",
     "parent": "SELECTORS",
     "properties": [
@@ -694,6 +873,88 @@
     "typeDesc": "mdx over mondrianJndi"
    },
    {
+    "id": "eb949bb8-ab2e-5547-d1ee-36a6e78f7df2",
+    "meta": "CDA",
+    "meta_conntype": "mondrian.jndi",
+    "meta_datype": "mdx",
+    "parent": "MDX",
+    "properties": [
+     {
+      "name": "name",
+      "type": "Id",
+      "value": "swQuerySimple"
+     },
+     {
+      "name": "access",
+      "type": "Access",
+      "value": "public"
+     },
+     {
+      "name": "jndi",
+      "type": "Jndi",
+      "value": "SampleData"
+     },
+     {
+      "name": "catalog",
+      "type": "MondrianCatalog",
+      "value": "mondrian:/SteelWheels"
+     },
+     {
+      "name": "query",
+      "type": "CurrentMdxQuery",
+      "value": "WITH\n\nMEMBER [Measures].[LineID] AS [Product].CURRENTMEMBER.uniqueName\nMEMBER [Measures].[Line] AS [Product].CURRENTMEMBER.Name\n\nSET [COLUMN_SET] AS { [Measures].[LineID], [Measures].[Line]}\nSET [ROW_SET] AS {[Product].[Line].MEMBERS}\n\nSELECT\n  [COLUMN_SET] ON COLUMNS,\n  [ROW_SET] ON ROWS\nFROM [SteelWheelsSales]"
+     },
+     {
+      "name": "parameters",
+      "type": "CdaParameters",
+      "value": "[]"
+     },
+     {
+      "name": "bandedMode",
+      "type": "BandedMode",
+      "value": "compact"
+     },
+     {
+      "name": "cdacalculatedcolumns",
+      "type": "CdaCalculatedColumnsArray",
+      "value": "[]"
+     },
+     {
+      "name": "cdacolumns",
+      "type": "CdaColumnsArray",
+      "value": "[]"
+     },
+     {
+      "name": "output",
+      "type": "IndexArray",
+      "value": "[]"
+     },
+     {
+      "name": "outputMode",
+      "type": "OutputMode",
+      "value": "include"
+     },
+     {
+      "name": "cacheKeys",
+      "type": "CacheKeysValues",
+      "value": "[]"
+     },
+     {
+      "name": "cacheDuration",
+      "type": "Integer",
+      "value": 3600
+     },
+     {
+      "name": "cache",
+      "type": "Boolean",
+      "value": "true"
+     }
+    ],
+    "rowName": "mdx over mondrianJndi",
+    "type": "Componentsmdx_mondrianJndi",
+    "typeDesc": "mdx over mondrianJndi"
+   },
+   {
     "id": "13904dca-e06b-eb9b-b21b-741c4d947725",
     "meta": "CDA",
     "meta_conntype": "mondrian.jndi",
@@ -840,6 +1101,69 @@
     ],
     "type": "LayoutRow",
     "typeDesc": "Row"
+   },
+   {
+    "id": "78f0362a-91f0-ed14-5a1b-58440a3c2731",
+    "parent": "c62222d7-0bd5-3566-fabe-10b14bf02d4f",
+    "properties": [
+     {
+      "name": "name",
+      "type": "Id",
+      "value": "filterSimpleObj"
+     },
+     {
+      "name": "bootstrapExtraSmall",
+      "type": "String",
+      "value": "12"
+     },
+     {
+      "name": "bootstrapSmall",
+      "type": "String",
+      "value": ""
+     },
+     {
+      "name": "bootstrapMedium",
+      "type": "String",
+      "value": ""
+     },
+     {
+      "name": "bootstrapLarge",
+      "type": "String",
+      "value": ""
+     },
+     {
+      "name": "bootstrapCssClass",
+      "type": "String",
+      "value": ""
+     },
+     {
+      "name": "height",
+      "type": "Integer",
+      "value": ""
+     },
+     {
+      "name": "backgroundColor",
+      "type": "Color",
+      "value": ""
+     },
+     {
+      "name": "roundCorners",
+      "type": "RoundCorners",
+      "value": ""
+     },
+     {
+      "name": "textAlign",
+      "type": "TextAlign",
+      "value": ""
+     },
+     {
+      "name": "cssClass",
+      "type": "String",
+      "value": ""
+     }
+    ],
+    "type": "LayoutBootstrapColumn",
+    "typeDesc": "Column"
    },
    {
     "id": "097e6fa9-b854-9736-3c87-40a5a905a740",

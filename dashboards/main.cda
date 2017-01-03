@@ -5,6 +5,10 @@
          <Catalog>mondrian:/SteelWheels</Catalog>
          <Jndi>SampleData</Jndi>
       </Connection>
+      <Connection id="swQuerySimple" type="mondrian.jndi">
+         <Catalog>mondrian:/SteelWheels</Catalog>
+         <Jndi>SampleData</Jndi>
+      </Connection>
       <Connection id="swQuery" type="mondrian.jndi">
          <Catalog>mondrian:/SteelWheels</Catalog>
          <Jndi>SampleData</Jndi>
@@ -24,6 +28,25 @@
 
 SELECT
   [COLS] ON COLUMNS,
+  [ROW_SET] ON ROWS
+FROM [SteelWheelsSales]]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="swQuerySimple" id="swQuerySimple" type="mdx">
+      <Name>swQuerySimple</Name>
+      <BandedMode>compact</BandedMode>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters/>
+      <Query><![CDATA[WITH
+
+MEMBER [Measures].[LineID] AS [Product].CURRENTMEMBER.uniqueName
+MEMBER [Measures].[Line] AS [Product].CURRENTMEMBER.Name
+
+SET [COLUMN_SET] AS { [Measures].[LineID], [Measures].[Line]}
+SET [ROW_SET] AS {[Product].[Line].MEMBERS}
+
+SELECT
+  [COLUMN_SET] ON COLUMNS,
   [ROW_SET] ON ROWS
 FROM [SteelWheelsSales]]]></Query>
    </DataAccess>

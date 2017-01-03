@@ -173,7 +173,7 @@ would be serialized as:
     "_": "pentaho/type/filter/and",
     "operands": [
       {
-        "_": "pentaho/type/filter/isEqual",
+        "_": "pentaho/type/filter/isIn",
         "property": "id",
         "value": {_: "string", v: "[Fruits]"}
       },
