@@ -1,0 +1,57 @@
+<div class="filter-title">{{strings.title}}</div>
+<div class="filter-root-container {{selectionState}}
+            {{#className}} {{className}}{{/className}}
+            {{#styles}} {{.}} {{/styles}}
+            {{^showIcons}} no-icons{{/showIcons}}
+            {{#isDisabled}} disabled{{/isDisabled}}">
+
+    {{#useOverlay}}
+    <div class="filter-overlay"/>
+    {{/useOverlay}}
+
+    <div class="filter-root-header"/>
+
+    <div class="filter-root-body filter-expand-{{expandMode}}">
+
+        <div class="filter-root-control">
+
+            <div class="filter-controls">
+                {{#showCommitButtons}}
+                <div class="filter-control-buttons clearfix"/>
+                {{/showCommitButtons}}
+
+                {{#showFilter}}
+                <div class="filter-filter"></div>
+                {{/showFilter}}
+            </div>
+
+            <div class="filter-root-selection">
+                {{#showGroupSelection}}
+                {{#showIcons}}
+                <div class="filter-root-selection-icon"/>
+                {{/showIcons}}
+
+                <div class="filter-root-selection-label">{{{strings.groupSelection}}}</div>
+
+                {{#showValue}}
+                <div class="filter-root-selection-value">{{{value}}}</div>
+                {{/showValue}}
+                {{/showGroupSelection}}
+
+            </div>
+
+        </div>
+
+        <div class="filter-root-items-container">
+            {{#showListOfSelectedItems}}
+            <div class="filter-selected-items">
+                {{#selectedItems}}
+                <span class="filter-selected-item">{{.}}</span>
+                {{/selectedItems}}
+            </div>
+            {{/showListOfSelectedItems}}
+            <div class="filter-root-items"/>
+        </div>
+        <div class="filter-root-footer"/>
+    </div>
+</div>

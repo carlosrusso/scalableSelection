@@ -1,0 +1,33 @@
+<div class="filter-item-container
+            {{#styles}} {{.}} {{/styles}}
+            {{selectionState}}">
+    {{#header}}
+    <div class="filter-item-header"> {{{header}}}</div>
+    {{/header}}
+    <div class="filter-item-body">
+        {{{item}}}
+
+        {{#showIcons}}
+        <div class="filter-item-selection-icon">
+            <div/>
+        </div>
+        {{/showIcons}}
+
+        {{#showButtonOnlyThis}}
+        <span class="filter-item-only-this">{{strings.btnOnlyThis}}</span>
+        {{/showButtonOnlyThis}}
+
+        <div class="filter-item-label"
+             title="{{#tooltip}}{{tooltip}}{{/tooltip}}{{^tooltip}}{{{label}}}{{/tooltip}}">
+            {{{label}}}
+        </div>
+
+        {{#showValue}}
+        <div class="filter-item-value">{{{value}}}</div>
+        {{/showValue}}
+
+    </div>
+    {{#footer}}
+    <div class="filter-item-footer">{{{footer}}}</div>
+    {{/footer}}
+</div>

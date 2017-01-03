@@ -1,0 +1,14 @@
+.no-svg .filter-collapse-icon {
+    background: url("images/filter-arrow.png") no-repeat left center;
+}
+.no-svg .filter-controls .filter-filter .filter-filter-icon {
+    background: url("images/search-icon.png") no-repeat center center;
+}
+.no-svg .filter-controls .filter-filter .filter-filter-clear {
+    background: url("images/close-icon.png");
+}
+.no-svg .filter-root-container.multi-select .filter-root-selection-icon,
+.no-svg .filter-root-container.multi-select .filter-group-selection-icon,
+.no-svg .filter-root-container.multi-select .filter-item-selection-icon {
+    background-image: url("images/checkbox-sprite.png");
+}

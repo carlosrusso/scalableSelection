@@ -3,7 +3,7 @@ define([
   'amd!cdf/lib/underscore',
   'cdf/Dashboard.Clean',
   'cdf/AddIn',
-  'cdf/components/filter/FilterComponent'
+  './cdf/components/filter/FilterComponent'
 ], function($, _, Dashboard, AddIn, FilterComponent) {
   "using strict";
 

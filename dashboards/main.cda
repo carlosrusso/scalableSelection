@@ -1,11 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CDADescriptor>
    <DataSources>
+      <Connection id="swResult" type="mondrian.jndi">
+         <Catalog>mondrian:/SteelWheels</Catalog>
+         <Jndi>SampleData</Jndi>
+      </Connection>
       <Connection id="swQuery" type="mondrian.jndi">
          <Catalog>mondrian:/SteelWheels</Catalog>
          <Jndi>SampleData</Jndi>
       </Connection>
    </DataSources>
+   <DataAccess access="public" connection="swResult" id="swResult" type="mdx">
+      <Name>swResult</Name>
+      <BandedMode>compact</BandedMode>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters>
+         <Parameter default="" name="SetFilterExpression" type="String"/>
+      </Parameters>
+      <Query><![CDATA[WITH
+  SET [COLS] AS {[Measures].[Sales]}
+  ${SetFilterExpression}
+
+SELECT
+  [COLS] ON COLUMNS,
+  [ROW_SET] ON ROWS
+FROM [SteelWheelsSales]]]></Query>
+   </DataAccess>
    <DataAccess access="public" connection="swQuery" id="swQuery" type="mdx">
       <Name>swQuery</Name>
       <BandedMode>compact</BandedMode>

@@ -2,7 +2,8 @@
 
 ## Summary
 
-The services team periodically asks for selectors that support inversion of selection, in paginated scenarios. 
+The services team periodically asks for selectors that support inversion of selection, in paginated scenarios, which is currently not supported.
+ 
 This is however a particular case around expressing the selected items as a list of included terms and a list of excluded terms.
 Alternatively, one could express a selection as a set of conditions.
 
@@ -110,7 +111,6 @@ SET ROW_SET as NONEMPTYCROSSJOIN(EXCEPT([Markets].[City].MEMBERS, Items), EXCEPT
 ```
 
 By further manipulating `ROW_SET`, more complex query template could be built.
-
 
 ## Tasks
 
@@ -424,3 +424,4 @@ FROM [SteelWheelsSales]
 ```
 
 -->
+

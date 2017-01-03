@@ -1,0 +1,50 @@
+<div class="filter-group-container {{selectionState}}
+            {{#className}} {{className}}{{/className}}
+            {{#styles}} {{.}} {{/styles}}
+            {{^showIcons}} no-icons{{/showIcons}}">
+
+    <div class="filter-group-header">
+
+        {{#showButtonCollapse}}
+        <div class="filter-collapse-icon
+                {{#isCollapsed}} collapsed{{/isCollapsed}}
+                {{^isCollapsed}} expanded{{/isCollapsed}}">
+        </div>
+        {{/showButtonCollapse}}
+
+        <div class="filter-group-title">{{{label}}}</div>
+
+        {{#showGroupSelection}}
+        <div class="filter-group-selection">
+            <div class="filter-group-selection-icon"></div>
+            <div class="filter-group-label">{{strings.groupSelection}}</div>
+        </div>
+        {{/showGroupSelection}}
+
+        {{#showValue}}
+        <div class="filter-group-selection-value"></div>
+        {{/showValue}}
+    </div>
+
+    <div class="filter-group-body">
+
+        {{#showFilter}}
+        <div class="filter-group-control">
+            <div class="filter-controls">
+                {{> filter}}
+            </div>
+        </div>
+        {{/showFilter}}
+
+        <div class="filter-group-items-container">
+            <div class="filter-group-items"></div>
+        </div>
+    </div>
+
+    <div class="filter-group-footer">
+        {{#showPagination}}
+        <button class="filter-btn-more-data">{{strings.moreData}}</button>
+        {{/showPagination}}
+        {{{footer}}}
+    </div>
+</div>

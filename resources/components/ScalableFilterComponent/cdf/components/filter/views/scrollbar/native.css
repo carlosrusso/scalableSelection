@@ -1,0 +1,8 @@
+/************************
+ *  Scrollbar
+ *****/
+.filter-root-items-container {
+    overflow-y: scroll;
+    height: 180px;
+    padding: 10px 0;
+}

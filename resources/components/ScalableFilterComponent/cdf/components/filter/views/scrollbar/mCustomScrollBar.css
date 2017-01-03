@@ -1,0 +1,13 @@
+/************************
+ *  Scrollbar
+ *****/
+.filter-root-items-container.mCustomScrollbar {
+    height: 180px;
+    padding: 10px 0;
+}
+.filter-root-items-container.mCustomScrollbar .mCSB_inside > .mCSB_container {
+    margin-right: 20px;
+}
+.filter-root-items-container.mCustomScrollbar .mCSB_scrollTools .mCSB_dragger .mCSB_dragger_bar {
+    width: 6px;
+}
