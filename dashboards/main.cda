@@ -34,10 +34,15 @@ FROM [SteelWheelsSales]]]></Query>
       <Columns/>
       <Parameters/>
       <Query><![CDATA[WITH
-MEMBER [Measures].[PL] AS [Product].[Line].CURRENTMEMBER.Name
+MEMBER [Measures].[ProductID] AS [Product].CURRENTMEMBER.uniqueName
+MEMBER [Measures].[Product] AS [Product].CURRENTMEMBER.Name
+MEMBER [Measures].[LineID] AS [Product].CURRENTMEMBER.PARENT.uniqueName
+MEMBER [Measures].[Line] AS [Product].CURRENTMEMBER.PARENT.Name
+MEMBER [Measures].[VendorID] AS [Product].CURRENTMEMBER.PARENT.PARENT.uniqueName
+MEMBER [Measures].[Vendor] AS [Product].CURRENTMEMBER.PARENT.PARENT.Name
 
-SET [COLUMN_SET] AS {[Measures].[PL]}
-SET [ROW_SET] AS {[Product].[Line].MEMBERS}
+SET [COLUMN_SET] AS { [Measures].[VendorID], [Measures].[Vendor], [Measures].[LineID], [Measures].[Line]}
+SET [ROW_SET] AS {[Product].[Product].MEMBERS}
 
 SELECT
   [COLUMN_SET] ON COLUMNS,

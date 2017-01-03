@@ -47,7 +47,7 @@
      {
       "name": "valueAsId",
       "type": "Boolean",
-      "value": "true"
+      "value": "false"
      },
      {
       "name": "outputFormat",
@@ -72,7 +72,7 @@
      {
       "name": "alwaysExpanded",
       "type": "Boolean",
-      "value": "false"
+      "value": "true"
      },
      {
       "name": "multiselect",
@@ -87,7 +87,7 @@
      {
       "name": "pageSize",
       "type": "Integer",
-      "value": ""
+      "value": "10"
      },
      {
       "name": "showIcons",
@@ -187,7 +187,7 @@
      {
       "name": "options",
       "type": "JavaScript",
-      "value": "function options(){\n    return {};\n}"
+      "value": "function options(){\n    return {\n        input: {\n            indexes: [{\n                id: 1,\n                label:2\n            }, {\n                id: 3,\n                label: 4\n            }]\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
      }
     ],
     "rowName": "Scalable Filter Component",
@@ -197,401 +197,401 @@
    {
     "id": "OTHERCOMPONENTS",
     "name": "Others",
-    "type": "Label",
-    "typeDesc": "<i>Group</i>",
     "parent": "UnIqEiD",
     "properties": [
      {
       "name": "Group",
-      "value": "Others",
-      "type": "Label"
+      "type": "Label",
+      "value": "Others"
      }
-    ]
+    ],
+    "type": "Label",
+    "typeDesc": "<i>Group</i>"
    },
    {
     "id": "fc8fd5ae-1d32-d923-cc8a-5799493909c8",
-    "type": "ComponentsTable",
-    "typeDesc": "table Component",
     "parent": "OTHERCOMPONENTS",
     "properties": [
      {
       "name": "name",
-      "value": "resultTable",
-      "type": "Id"
+      "type": "Id",
+      "value": "resultTable"
      },
      {
       "name": "expandContainerObject",
-      "value": "",
-      "type": "HtmlTarget"
+      "type": "HtmlTarget",
+      "value": ""
      },
      {
       "name": "listeners",
-      "value": "[\"${p:paramMDX}\"]",
-      "type": "Listeners"
+      "type": "Listeners",
+      "value": "[\"${p:paramMDX}\"]"
      },
      {
       "name": "oLanguage",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "language",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "colFormats",
-      "value": "[]",
-      "type": "ColFormatsArray"
+      "type": "ColFormatsArray",
+      "value": "[]"
      },
      {
       "name": "colHeaders",
-      "value": "[\"Name\",\"Measure\"]",
-      "type": "ColHeadersArray"
+      "type": "ColHeadersArray",
+      "value": "[\"Name\",\"Measure\"]"
      },
      {
       "name": "colSortable",
-      "value": "[]",
-      "type": "ColSortableArray"
+      "type": "ColSortableArray",
+      "value": "[]"
      },
      {
       "name": "colTypes",
-      "value": "[\"string\",\"numeric\"]",
-      "type": "colTypesCustom"
+      "type": "colTypesCustom",
+      "value": "[\"string\",\"numeric\"]"
      },
      {
       "name": "colWidths",
-      "value": "[]",
-      "type": "ColWidthsArray"
+      "type": "ColWidthsArray",
+      "value": "[]"
      },
      {
       "name": "expandParameters",
-      "value": "[]",
-      "type": "ExpandParameters"
+      "type": "ExpandParameters",
+      "value": "[]"
      },
      {
       "name": "parameters",
-      "value": "[[\"SetFilterExpression\",\"paramMDX\"]]",
-      "type": "ValuesArray"
+      "type": "ValuesArray",
+      "value": "[[\"SetFilterExpression\",\"paramMDX\"]]"
      },
      {
       "name": "displayLength",
-      "value": "",
-      "type": "Integer"
+      "type": "Integer",
+      "value": ""
      },
      {
       "name": "expandOnClick",
-      "value": "false",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "false"
      },
      {
       "name": "filter",
-      "value": "true",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "true"
      },
      {
       "name": "info",
-      "value": "true",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "true"
      },
      {
       "name": "lengthChange",
-      "value": "true",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "true"
      },
      {
       "name": "paginate",
-      "value": "true",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "true"
      },
      {
       "name": "sort",
-      "value": "true",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "true"
      },
      {
       "name": "colSearchable",
-      "value": "[]",
-      "type": "ColSearchableArray"
+      "type": "ColSearchableArray",
+      "value": "[]"
      },
      {
       "name": "drawCallback",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "dataSource",
-      "value": "swResult",
-      "type": "Datasource"
+      "type": "Datasource",
+      "value": "swResult"
      },
      {
       "name": "sDom",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "sortBy",
-      "value": "[]",
-      "type": "SortByArray"
+      "type": "SortByArray",
+      "value": "[]"
      },
      {
       "name": "priority",
-      "value": 5,
-      "type": "Integer"
+      "type": "Integer",
+      "value": 5
      },
      {
       "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
+      "type": "Integer",
+      "value": ""
      },
      {
       "name": "paginationType",
-      "value": "simple_numbers",
-      "type": "PaginationType"
+      "type": "PaginationType",
+      "value": "simple_numbers"
      },
      {
       "name": "tableStyle",
-      "value": "",
-      "type": "TableStyle"
+      "type": "TableStyle",
+      "value": ""
      },
      {
       "name": "htmlObject",
-      "value": "${h:tableObj}",
-      "type": "HtmlObject"
+      "type": "HtmlObject",
+      "value": "${h:tableObj}"
      },
      {
       "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "true"
      },
      {
       "name": "paginateServerside",
-      "value": "false",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "false"
      },
      {
       "name": "failureCallback",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "preExecution",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "extraOptions",
-      "value": "[]",
-      "type": "ExtraOptionsArray"
+      "type": "ExtraOptionsArray",
+      "value": "[]"
      },
      {
       "name": "tooltip",
-      "value": "",
-      "type": "Html"
+      "type": "Html",
+      "value": ""
      },
      {
       "name": "clickAction",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      }
     ],
-    "rowName": "Table Component"
+    "rowName": "Table Component",
+    "type": "ComponentsTable",
+    "typeDesc": "table Component"
    },
    {
     "id": "0ec9b442-8626-b378-fb6e-e6908d96103e",
-    "type": "Componentsfreeform",
-    "typeDesc": "Freeform Component",
     "parent": "OTHERCOMPONENTS",
     "properties": [
      {
       "name": "name",
-      "value": "freeForm",
-      "type": "Id"
+      "type": "Id",
+      "value": "freeForm"
      },
      {
       "name": "listeners",
-      "value": "[\"${p:paramSelection}\"]",
-      "type": "Listeners"
+      "type": "Listeners",
+      "value": "[\"${p:paramSelection}\"]"
      },
      {
       "name": "customfunction",
-      "value": "function(){\n    \n    var selection = this.dashboard.getParameterValue(\"paramSelection\");\n    //\n    var mdxExpression = \"SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}\";\n    this.dashboard.fireChange(\"paramMDX\", mdxExpression);\n} ",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": "function(){\n    \n    var selection = this.dashboard.getParameterValue(\"paramSelection\");\n    //\n    var mdxExpression = \"SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}\";\n    this.dashboard.fireChange(\"paramMDX\", mdxExpression);\n} "
      },
      {
       "name": "parameters",
-      "value": "[]",
-      "type": "ValuesArray"
+      "type": "ValuesArray",
+      "value": "[]"
      },
      {
       "name": "manageCallee",
-      "value": "true",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "true"
      },
      {
       "name": "dataSource",
-      "value": "",
-      "type": "Datasource"
+      "type": "Datasource",
+      "value": ""
      },
      {
       "name": "height",
-      "value": 300,
-      "type": "Integer"
+      "type": "Integer",
+      "value": 300
      },
      {
       "name": "priority",
-      "value": 5,
-      "type": "Integer"
+      "type": "Integer",
+      "value": 5
      },
      {
       "name": "width",
-      "value": 300,
-      "type": "Integer"
+      "type": "Integer",
+      "value": 300
      },
      {
       "name": "htmlObject",
-      "value": "",
-      "type": "HtmlObject"
+      "type": "HtmlObject",
+      "value": ""
      },
      {
       "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "true"
      },
      {
       "name": "preExecution",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "postFetch",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "preChange",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "postChange",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "tooltip",
-      "value": "",
-      "type": "Html"
+      "type": "Html",
+      "value": ""
      }
     ],
-    "rowName": "Freeform Component"
+    "rowName": "Freeform Component",
+    "type": "Componentsfreeform",
+    "typeDesc": "Freeform Component"
    },
    {
     "id": "GENERIC",
     "name": "Generic",
-    "type": "Label",
-    "typeDesc": "<i>Group</i>",
     "parent": "UnIqEiD",
     "properties": [
      {
       "name": "Group",
-      "value": "Generic",
-      "type": "Label"
+      "type": "Label",
+      "value": "Generic"
      }
-    ]
+    ],
+    "type": "Label",
+    "typeDesc": "<i>Group</i>"
    },
    {
     "id": "623f58a8-6668-8bf2-4969-2d47652062fa",
-    "type": "ComponentsJavascriptParameter",
-    "typeDesc": "Custom parameter",
     "parent": "GENERIC",
     "properties": [
      {
       "name": "name",
-      "value": "paramMDX",
-      "type": "Id"
+      "type": "Id",
+      "value": "paramMDX"
      },
      {
       "name": "javaScript",
-      "value": "\"SET ROW_SET as {}\" ",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": "\"SET ROW_SET as {}\" "
      },
      {
       "name": "parameterViewRole",
-      "value": "unused",
-      "type": "parameterViewRoleCustom"
+      "type": "parameterViewRoleCustom",
+      "value": "unused"
      },
      {
       "name": "bookmarkable",
-      "value": "false",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "false"
      },
      {
       "name": "public",
-      "value": "false",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "false"
      }
     ],
-    "rowName": "Custom Parameter"
+    "rowName": "Custom Parameter",
+    "type": "ComponentsJavascriptParameter",
+    "typeDesc": "Custom parameter"
    },
    {
     "id": "6b946cf9-a8a0-cbae-8a29-84afe366c41f",
-    "type": "ComponentsJavascriptParameter",
-    "typeDesc": "Custom parameter",
     "parent": "GENERIC",
     "properties": [
      {
       "name": "name",
-      "value": "paramSelection",
-      "type": "Id"
+      "type": "Id",
+      "value": "paramSelection"
      },
      {
       "name": "javaScript",
-      "value": "[] ",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": "[] "
      },
      {
       "name": "parameterViewRole",
-      "value": "unused",
-      "type": "parameterViewRoleCustom"
+      "type": "parameterViewRoleCustom",
+      "value": "unused"
      },
      {
       "name": "bookmarkable",
-      "value": "false",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "false"
      },
      {
       "name": "public",
-      "value": "false",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "false"
      }
     ],
-    "rowName": "Custom Parameter"
+    "rowName": "Custom Parameter",
+    "type": "ComponentsJavascriptParameter",
+    "typeDesc": "Custom parameter"
    }
   ]
  },
@@ -723,7 +723,7 @@
      {
       "name": "query",
       "type": "CurrentMdxQuery",
-      "value": "WITH\nMEMBER [Measures].[PL] AS [Product].[Line].CURRENTMEMBER.Name\n\nSET [COLUMN_SET] AS {[Measures].[PL]}\nSET [ROW_SET] AS {[Product].[Line].MEMBERS}\n\nSELECT\n  [COLUMN_SET] ON COLUMNS,\n  [ROW_SET] ON ROWS\nFROM [SteelWheelsSales]"
+      "value": "WITH\nMEMBER [Measures].[ProductID] AS [Product].CURRENTMEMBER.uniqueName\nMEMBER [Measures].[Product] AS [Product].CURRENTMEMBER.Name\nMEMBER [Measures].[LineID] AS [Product].CURRENTMEMBER.PARENT.uniqueName\nMEMBER [Measures].[Line] AS [Product].CURRENTMEMBER.PARENT.Name\nMEMBER [Measures].[VendorID] AS [Product].CURRENTMEMBER.PARENT.PARENT.uniqueName\nMEMBER [Measures].[Vendor] AS [Product].CURRENTMEMBER.PARENT.PARENT.Name\n\nSET [COLUMN_SET] AS { [Measures].[VendorID], [Measures].[Vendor], [Measures].[LineID], [Measures].[Line]}\nSET [ROW_SET] AS {[Product].[Product].MEMBERS}\n\nSELECT\n  [COLUMN_SET] ON COLUMNS,\n  [ROW_SET] ON ROWS\nFROM [SteelWheelsSales]"
      },
      {
       "name": "parameters",
