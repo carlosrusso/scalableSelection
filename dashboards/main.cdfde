@@ -434,7 +434,7 @@
      {
       "name": "customfunction",
       "type": "JavaScript",
-      "value": "function(){\n    \n    var selection = this.dashboard.getParameterValue(\"paramSelection\");\n    //\n    var mdxExpression = \"SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}\";\n    this.dashboard.fireChange(\"paramMDX\", mdxExpression);\n} "
+      "value": "function(){\n    \n    var selection = this.dashboard.getParameterValue(\"paramSelection\");\n    // eval(''); debugger;\n    // utils.transform();\n    \n    var mdxExpression = \"SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}\";\n    this.dashboard.fireChange(\"paramMDX\", mdxExpression);\n} "
      },
      {
       "name": "parameters",
@@ -780,6 +780,29 @@
  "filename": "/system/scalableSelection/dashboards/main.cdfde",
  "layout": {
   "rows": [
+   {
+    "id": "d6c87d92-3336-e5c1-0e1c-a159e8c773d2",
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "utils",
+      "type": "Id"
+     },
+     {
+      "name": "resourceFile",
+      "value": "${system:../resources/js/utils.js}",
+      "type": "ResourceFile"
+     },
+     {
+      "name": "resourceType",
+      "value": "Javascript",
+      "type": "Label"
+     }
+    ]
+   },
    {
     "id": "c62222d7-0bd5-3566-fabe-10b14bf02d4f",
     "parent": "UnIqEiD",
