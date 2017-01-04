@@ -52,7 +52,7 @@
      {
       "name": "outputFormat",
       "type": "outputFormatCustom",
-      "value": "lowestID"
+      "value": "scalable"
      },
      {
       "name": "dataSource",
@@ -187,7 +187,7 @@
      {
       "name": "options",
       "type": "JavaScript",
-      "value": "function options(){\n    return {\n        input: {\n            indexes: [{\n                id: 1,\n                label:2\n            }]\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
+      "value": "function options(){\n    return {\n        input: {\n            indexes: [{\n                id: 1,\n                label:2\n            }],\n            root: {\n                id: \"Pai\"\n            }\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
      }
     ],
     "rowName": "Scalable Filter Component",
@@ -231,7 +231,7 @@
      {
       "name": "outputFormat",
       "type": "outputFormatCustom",
-      "value": "lowestID"
+      "value": "scalable"
      },
      {
       "name": "dataSource",
@@ -1043,26 +1043,26 @@
   "rows": [
    {
     "id": "d6c87d92-3336-e5c1-0e1c-a159e8c773d2",
-    "type": "LayoutResourceFile",
-    "typeDesc": "Resource",
     "parent": "UnIqEiD",
     "properties": [
      {
       "name": "name",
-      "value": "utils",
-      "type": "Id"
+      "type": "Id",
+      "value": "utils"
      },
      {
       "name": "resourceFile",
-      "value": "${system:../resources/js/utils.js}",
-      "type": "ResourceFile"
+      "type": "ResourceFile",
+      "value": "${system:../resources/js/utils.js}"
      },
      {
       "name": "resourceType",
-      "value": "Javascript",
-      "type": "Label"
+      "type": "Label",
+      "value": "Javascript"
      }
-    ]
+    ],
+    "type": "LayoutResourceFile",
+    "typeDesc": "Resource"
    },
    {
     "id": "c62222d7-0bd5-3566-fabe-10b14bf02d4f",

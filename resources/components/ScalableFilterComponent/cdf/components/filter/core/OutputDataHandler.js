@@ -13,10 +13,34 @@
 
 define([
   'amd!cdf/lib/underscore',
-  '../../../lib/baseEvents/BaseEvents'
-], function(_, BaseEvents) {
+  '../../../lib/baseEvents/BaseEvents',
+  './Model',
+  'pentaho/type/Context',
+  'pentaho/type/filter/abstract',
+  'pentaho/type/filter/isIn',
+  'pentaho/type/filter/and',
+  'pentaho/type/filter/or'
+], function(_, BaseEvents,
+            Model,
+            Context,
+            abstractFilterFactory, isInFactory, andFactory, orFactory
+) {
 
   'use strict';
+
+
+  var SelectionStates = Model.SelectionStates;
+  var context = new Context();
+  var AbstractFilter = context.get(abstractFilterFactory);
+  var IsInFilter = context.get(isInFactory);
+  var AndFilter = context.get(andFactory);
+  var OrFilter = context.get(orFactory);
+
+  var Filter = AbstractFilter.extend({
+    contains: function() {
+      return false;
+    }
+  });
 
   /**
    * @class cdf.components.filter.core.OutputDataHandler
@@ -56,6 +80,10 @@ define([
             break;
           case 'selected':
             result = selection;
+            break;
+          case 'scalable':
+            result = this.getFilter(selection);
+            break;
         }
       } else if (_.isFunction(outputFormat)) {
         result = outputFormat.call(this, model, selection);
@@ -112,6 +140,59 @@ define([
       return list;
     },
 
+    /**
+     * Transforms the state of the model into a set of conditions
+     *
+     * @param selectionState
+     * @returns {pentaho.type.filter.abstract}
+     */
+    getFilter: function(selectionState) {
+      var root = this.model;
+
+      return toFilter(root);
+
+      function item(model) {
+        return model;
+      }
+
+      function combine(list, modelGroup) {
+
+        switch(modelGroup.getSelection()){
+          case SelectionStates.ALL:
+            return isIn([modelGroup]);
+
+          case SelectionStates.NONE:
+            return not(isIn([modelGroup]));
+
+          case SelectionStates.SOME:
+            var modelsAndSpecs = _.partition(_.compact(list), function(m) {
+              return m.get; // hack to determine if
+            });
+            var included = _.filter(modelsAndSpecs[0], function(m) {
+              return m.getSelection() === SelectionStates.ALL;
+            });
+
+            var operands = modelsAndSpecs[1].length ? modelsAndSpecs[1] : [];
+            if (included){
+              var spec = isIn(included);
+              if(operands.length){
+                operands.push(spec);
+              } else {
+                operands = [spec];
+              }
+            }
+            return operands.length ? {
+              "_": "pentaho/type/filter/or",
+              operands: operands
+            } : null;
+
+        }
+      }
+
+      return root.walkDown(item, combine, null);
+
+    },
+
     onApply: function(model, _selectionState) {
       if (_selectionState == null) {
         return;
@@ -137,5 +218,100 @@ define([
       return this._processOutput(selection, model);
     }
   });
+
+
+
+  function toFilter(modelGroup){
+    switch(modelGroup.getSelection()){
+      case SelectionStates.ALL:
+        return isIn([modelGroup]);
+
+      case SelectionStates.NONE:
+        return isIn([]);
+
+      case SelectionStates.SOME:
+
+        var operands = modelGroup.children().chain()
+          .reject(function(m) {
+            return m.getSelection() === SelectionStates.NONE;
+          })
+          .map(toFilter)
+          .compact()
+          .value();
+
+        if(operands.length === 0) return null;
+
+        operands = simplifyIsIn(operands);
+
+        switch(operands.length) {
+          case 0:
+            return null;
+          case 1:
+            return operands[0];
+          default:
+
+            return {
+              "_": "pentaho/type/filter/or",
+              operands: operands
+            };
+        }
+    }
+  }
+
+  function simplifyIsIn(operands) {
+    var isInOperandsAndOthers = _.partition(operands, function(spec){
+      return spec["_"] === "pentaho/type/filter/isIn";
+    });
+
+    var result = isInOperandsAndOthers[1];
+    var isInOperands = isInOperandsAndOthers[0];
+
+    var isInValues = _.reduce(isInOperands, function(memo, spec) {
+        if(spec.values.length){
+          memo.push.apply(memo, _.compact(_.pluck(spec.values, "v")));
+        }
+        return memo;
+    }, []);
+
+    var isInOperand = {
+      "_": "pentaho/type/filter/isIn",
+      property: 'id',
+      values: _.map(isInValues, function(v) {
+        return {
+          "_": "string",
+          v: v
+        };
+      })
+    };
+
+    if(result.length){
+      result.push(isInOperand)
+    } else if(isInOperand.values.length) {
+      result = [isInOperand];
+    } else {
+      result = null;
+    }
+    return result;
+  }
+
+  function isIn(modelList) {
+    return {
+      "_": "pentaho/type/filter/isIn",
+      property: 'id',
+      values: _.map(modelList, function(model) {
+        return {
+          "_": "string",
+          "v": model.get('id')
+        };
+      })
+    };
+  }
+
+  function not(spec) {
+    return {
+      "_": "pentaho/type/filter/not",
+      operand: spec
+    };
+  }
 
 });

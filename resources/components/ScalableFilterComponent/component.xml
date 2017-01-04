@@ -85,6 +85,7 @@
             <Version>1.0</Version>
           </Header>
           <Values>
+            <Value display="Scalable">scalable</Value>
             <Value display="Group and Item Ids">highestID</Value>
             <Value display="Item Ids">lowestID</Value>
           </Values>

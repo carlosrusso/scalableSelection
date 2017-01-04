@@ -193,7 +193,7 @@ define([
         }
         return deferred.always(_.bind(function(){
           this.model.set('isLoading', false);
-        }, this))
+        }, this));
       };
 
       var p  = this.queryDefinition.pageSize;

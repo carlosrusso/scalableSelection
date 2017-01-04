@@ -17,18 +17,22 @@ define([
   /**
    * The selection state representation.
    *
-   * @typedef {?boolean} SelectionStates
+   * @typedef {?boolean | ?number} SelectionStates
    * @property {null}  SOME - Some items selected.
+   * @property {1}     INCLUDE - Only the items marked as selected are included in the selection.
+   * @property {-1}    EXCLUDE - All items except those marked as unselected are included in the selection.
    * @property {false} NONE - No items selected.
    * @property {true}  ALL  - All items selected.
    */
   var SelectionStates = {
-    SOME: null,
     NONE: false,
+    SOME: null,
+    INCLUDE: 1,
+    EXCLUDE: -1,
     ALL: true
   };
 
-  var SelectionStateValues = [null, false, true];
+  var SelectionStateValues = [null, 1, -1, false, true];
 
   var ISelection = {
 
