@@ -17,22 +17,21 @@ define([
   /**
    * The selection state representation.
    *
-   * @typedef {?boolean | ?number} SelectionStates
+   * @typedef {?boolean | ?string} SelectionStates
    * @property {null}  SOME - Some items selected.
-   * @property {1}     INCLUDE - Only the items marked as selected are included in the selection.
-   * @property {-1}    EXCLUDE - All items except those marked as unselected are included in the selection.
+   * @property {}     INCLUDE - Only the items marked as selected are included in the selection.
+   * @property {}    EXCLUDE - All items except those marked as unselected are included in the selection.
    * @property {false} NONE - No items selected.
    * @property {true}  ALL  - All items selected.
    */
   var SelectionStates = {
     NONE: false,
-    SOME: null,
-    INCLUDE: 1,
-    EXCLUDE: -1,
+    INCLUDE: "include",
+    EXCLUDE: "exclude",
     ALL: true
   };
 
-  var SelectionStateValues = [null, 1, -1, false, true];
+  var SelectionStateValues = ["include", "exclude", false, true];
 
   var ISelection = {
 
@@ -72,7 +71,7 @@ define([
     _setSelection: function(newState) {
       this.set('isSelected', newState);
 
-      if (newState === SelectionStates.SOME) {
+      if (newState !== SelectionStates.ALL && newState !== SelectionStates.NONE) {
         return;
       }
 
@@ -162,8 +161,8 @@ define([
       var previousSelection = _previousSelection.value();
 
       // Confirm if any of the previously marked items changed its selection state
-      var foundChange = _.some(previousSelection.some, function(m) {
-        return m.getSelection() != SelectionStates.SOME;
+      var foundChange = _.some(previousSelection.include, function(m) {
+        return m.getSelection() != SelectionStates.INCLUDE;
       });
       if (foundChange) {
         return true;
@@ -171,6 +170,13 @@ define([
 
       foundChange = _.some(previousSelection.none, function(m) {
         return m.getSelection() != SelectionStates.NONE;
+      });
+      if (foundChange) {
+        return true;
+      }
+
+      var foundChange = _.some(previousSelection.exclude, function(m) {
+        return m.getSelection() != SelectionStates.exclude;
       });
       if (foundChange) {
         return true;
@@ -286,8 +292,10 @@ define([
           switch (m.getSelection()) {
             case SelectionStates.NONE:
               return "none";
-            case SelectionStates.SOME:
-              return "some";
+            case SelectionStates.INCLUDE:
+              return "include";
+            case SelectionStates.EXCLUDE:
+              return "exclude";
             case SelectionStates.ALL:
               return "all";
             default:
@@ -377,7 +385,7 @@ define([
         isVisible: true
         // numberOfSelectedItems: 0, // no need to define this as default
         // numberOfItems: 0  // no need to define this as default
-      }
+      };
     },
 
     initialize: function(attributes, options) {
@@ -417,7 +425,7 @@ define([
       if(!countItemCallback){
         countItemCallback = function() {
           return 1;
-        }
+        };
       }
       return this._walkDown(countItemCallback, sum, null);
     },
@@ -456,7 +464,9 @@ define([
    * @param {SelectionStates[]} states an array containing the state of each child
    * @return {SelectionStates} Returns the inferred state
    */
-  function reduceSelectionStates(states) {
+  function reduceSelectionStates(states, self) {
+    var currentState = self.getSelection();
+
     var all = _.every(states, function(el) {
       return el === SelectionStates.ALL;
     });
@@ -471,7 +481,15 @@ define([
       return SelectionStates.NONE;
     }
 
-    return SelectionStates.SOME;
+    //TODO: review this
+
+
+    if (currentState === SelectionStates.NONE || currentState === SelectionStates.INCLUDE) {
+      return SelectionStates.INCLUDE;
+    }
+    if (currentState === SelectionStates.ALL || currentState === SelectionStates.EXCLUDE) {
+      return SelectionStates.EXCLUDE;
+    }
   }
 
   function getOwn(o, p, v) {

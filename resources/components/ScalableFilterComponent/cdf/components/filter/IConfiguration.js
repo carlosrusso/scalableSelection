@@ -109,7 +109,7 @@ define([
        *  Configure the views
        */
       var cd = this.componentDefinition;
-      var selectionStrategy = cd.multiselect ? 'LimitedSelect' : 'SingleSelect';
+      var selectionStrategy = cd.multiselect ? 'MultiSelect' : 'SingleSelect';
       $.extend(true, configuration,
         presets[selectionStrategy],
         {

@@ -74,7 +74,7 @@ define([
       });
 
       var modelSelection = this.model.getSelection();
-      var isPartiallySelected = (modelSelection === SelectionStates.SOME);
+      var isPartiallySelected = (modelSelection === SelectionStates.INCLUDE || modelSelection === SelectionStates.EXCLUDE );
       var allItemsSelected = (modelSelection === SelectionStates.ALL);
       var noItemsSelected = (modelSelection === SelectionStates.NONE);
 

@@ -37,13 +37,15 @@ define([
     value: sanitizeInput,
     isSelected: function(v) {
       if (_.isNull(v)) {
-        return SelectionStates.SOME;
+        return SelectionStates.INCLUDE;
       } else if (_.isString(v)) {
         switch (v.toLowerCase()) {
           case "true":
             return SelectionStates.ALL;
-          case "null":
-            return SelectionStates.SOME;
+          case "include":
+            return SelectionStates.INCLUDE;
+          case "exclude":
+            return SelectionStates.EXCLUDE;
           default:
             return SelectionStates.NONE;
         }

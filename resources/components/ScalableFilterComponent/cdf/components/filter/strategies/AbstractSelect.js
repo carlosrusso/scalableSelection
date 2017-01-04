@@ -54,8 +54,10 @@ define([
           return SelectionStates.ALL;
         case SelectionStates.ALL:
           return SelectionStates.NONE;
-        case SelectionStates.SOME:
+        case SelectionStates.INCLUDE:
           return SelectionStates.NONE;
+        case SelectionStates.EXCLUDE:
+          return SelectionStates.ALL;
       }
     },
 

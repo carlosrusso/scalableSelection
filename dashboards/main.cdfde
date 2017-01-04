@@ -27,7 +27,7 @@
      {
       "name": "title",
       "type": "String",
-      "value": "Hierarchy"
+      "value": "One Level"
      },
      {
       "name": "parameter",
@@ -206,7 +206,7 @@
      {
       "name": "title",
       "type": "String",
-      "value": "Hierarchy"
+      "value": "Two Levels"
      },
      {
       "name": "parameter",
@@ -385,7 +385,7 @@
      {
       "name": "title",
       "type": "String",
-      "value": "Hierarchy"
+      "value": "Three Levels"
      },
      {
       "name": "parameter",
@@ -1315,7 +1315,7 @@
      },
      {
       "name": "resourceCode",
-      "value": ".filter-root-items-container.mCustomScrollbar {\n    height: 400px;\n    padding: 10px 0;\n} ",
+      "value": ".filter-root-items-container.mCustomScrollbar {\n    height: 400px;\n    padding: 10px 0;\n}\n\n.filter-group-body {\n    padding: 0 10px;\n}\n\n.filter-group-label {\n    font-size: 16px;\n} ",
       "type": "Resource"
      },
      {

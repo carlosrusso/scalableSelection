@@ -169,31 +169,53 @@ define([
       case SelectionStates.NONE:
         return isIn([], modelGroup.parent());
 
-      case SelectionStates.SOME:
+      case SelectionStates.INCLUDE:
+        return toPartialFilter(modelGroup, SelectionStates.NONE);
 
-        var operands = modelGroup.children().chain()
-          .reject(function(m) {
-            return m.getSelection() === SelectionStates.NONE;
-          })
-          .map(toFilter)
-          .compact()
-          .value();
+      case SelectionStates.EXCLUDE:
+        return toPartialFilter(modelGroup, SelectionStates.ALL);
+    }
+  }
 
-        //if(operands.length === 0) return null;
-        //operands = simplifyIsIn(operands);
+  function toFilterExclude(modelGroup){
+    switch(modelGroup.getSelection()){
+      case SelectionStates.NONE:
+        return isIn([modelGroup], modelGroup.parent());
 
-        switch(operands.length) {
-          case 0:
-            return null;
-          case 1:
-            return operands[0];
-          default:
+      case SelectionStates.ALL:
+        return isIn([], modelGroup.parent());
 
-            return {
-              "_": "pentaho/type/filter/or",
-              operands: operands
-            };
-        }
+      case SelectionStates.INCLUDE:
+        return toPartialFilter(modelGroup, SelectionStates.NONE);
+      case SelectionStates.EXCLUDE: //TODO: must redo this one
+        return toPartialFilter(modelGroup, SelectionStates.ALL);
+    }
+  }
+
+  function toPartialFilter(modelGroup, rejectState){
+
+    var operands = modelGroup.children().chain()
+      .reject(function(m) {
+        return m.getSelection() === rejectState;
+      })
+      .map(toFilter)
+      .compact()
+      .value();
+
+    //if(operands.length === 0) return null;
+    //operands = simplifyIsIn(operands);
+
+    switch(operands.length) {
+      case 0:
+        return null;
+      case 1:
+        return operands[0];
+      default:
+
+        return {
+          "_": "pentaho/type/filter/or",
+          operands: operands
+        };
     }
   }
 
@@ -204,6 +226,8 @@ define([
 
     var result = isInOperandsAndOthers[1];
     var isInOperands = isInOperandsAndOthers[0];
+
+    // _.groupBy property
 
     var isInValues = _.reduce(isInOperands, function(memo, spec) {
         if(spec.values.length){
