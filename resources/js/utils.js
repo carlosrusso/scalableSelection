@@ -40,7 +40,7 @@ define(['cdf/lib/underscore'], function(_) {
     //   "values": [
     //   ]
     // }
-    
+      
     var exp = '';
     var notExp = '';
     var notExists = false;
@@ -49,6 +49,9 @@ define(['cdf/lib/underscore'], function(_) {
     if (rootOp === 'isIn') {
       // LEAF case      
       exp = _.pluck(obj.values, 'v').join();
+      if (obj.parent === null) {
+        exp += '.MEMBERS';
+      }
 
     } else if (rootOp === 'and' || rootOp === 'or') {
       // AND Case
