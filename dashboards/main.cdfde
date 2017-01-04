@@ -613,7 +613,7 @@
      {
       "name": "customfunction",
       "type": "JavaScript",
-      "value": "function(){\n    \n    var selection = this.dashboard.getParameterValue(\"paramSelection\");\n    // eval(''); debugger;\n    var mdxExpression = utils.transform(selection);\n    //var mdxExpression = \"SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}\";\n    \n    this.dashboard.fireChange(\"paramMDX\", mdxExpression);\n} "
+      "value": "function(){\n\n    var selection = this.dashboard.getParameterValue(\"paramSelection\");\n    \n    var html = \"<pre>\" + JSON.stringify(selection, true, \" \") + \"</pre>\";\n    this.placeholder()\n        .empty()\n        .html(html);\n    \n    // eval(''); debugger;\n    var mdxExpression = utils.transform(selection);\n    //var mdxExpression = \"SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}\";\n    \n    this.dashboard.fireChange(\"paramMDX\", mdxExpression);\n} "
      },
      {
       "name": "parameters",
@@ -648,7 +648,7 @@
      {
       "name": "htmlObject",
       "type": "HtmlObject",
-      "value": ""
+      "value": "${h:selectionObj}"
      },
      {
       "name": "executeAtStart",
@@ -984,7 +984,7 @@
      {
       "name": "query",
       "type": "CurrentMdxQuery",
-      "value": "WITH\nMEMBER [Measures].[ProductID] AS [Product].CURRENTMEMBER.uniqueName\nMEMBER [Measures].[Product] AS [Product].CURRENTMEMBER.Name\nMEMBER [Measures].[LineID] AS [Product].CURRENTMEMBER.PARENT.uniqueName\nMEMBER [Measures].[Line] AS [Product].CURRENTMEMBER.PARENT.Name\nMEMBER [Measures].[VendorID] AS [Product].CURRENTMEMBER.PARENT.PARENT.uniqueName\nMEMBER [Measures].[Vendor] AS [Product].CURRENTMEMBER.PARENT.PARENT.Name\n\nSET [COLUMN_SET] AS { [Measures].[VendorID], [Measures].[Vendor], [Measures].[LineID], [Measures].[Line]}\nSET [ROW_SET] AS {[Product].[Product].MEMBERS}\n\nSELECT\n  [COLUMN_SET] ON COLUMNS,\n  [ROW_SET] ON ROWS\nFROM [SteelWheelsSales]"
+      "value": "WITH\nMEMBER [Measures].[ProductID] AS [Product].CURRENTMEMBER.uniqueName\nMEMBER [Measures].[Product] AS [Product].CURRENTMEMBER.Name\nMEMBER [Measures].[LineID] AS [Product].CURRENTMEMBER.PARENT.uniqueName\nMEMBER [Measures].[Line] AS [Product].CURRENTMEMBER.PARENT.Name\nMEMBER [Measures].[VendorID] AS [Product].CURRENTMEMBER.PARENT.PARENT.uniqueName\nMEMBER [Measures].[Vendor] AS [Product].CURRENTMEMBER.PARENT.PARENT.Name\n\nSET [COLUMN_SET] AS { \n[Measures].[VendorID], [Measures].[Vendor], \n[Measures].[LineID], [Measures].[Line]\n}\nSET [ROW_SET] AS {[Product].[Product].MEMBERS}\n\nSELECT\n  [COLUMN_SET] ON COLUMNS,\n  [ROW_SET] ON ROWS\nFROM [SteelWheelsSales]"
      },
      {
       "name": "parameters",
@@ -1041,6 +1041,29 @@
  "filename": "/system/scalableSelection/dashboards/main.cdfde",
  "layout": {
   "rows": [
+   {
+    "id": "ea5b4ad0-cc55-f027-cc65-038fbb5ac469",
+    "type": "LayoutResourceCode",
+    "typeDesc": "Resource",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "css",
+      "type": "Id"
+     },
+     {
+      "name": "resourceCode",
+      "value": ".filter-root-items-container.mCustomScrollbar {\n    height: 400px;\n    padding: 10px 0;\n} ",
+      "type": "Resource"
+     },
+     {
+      "name": "resourceType",
+      "value": "Css",
+      "type": "Label"
+     }
+    ]
+   },
    {
     "id": "d6c87d92-3336-e5c1-0e1c-a159e8c773d2",
     "parent": "UnIqEiD",
@@ -1119,7 +1142,7 @@
      {
       "name": "bootstrapSmall",
       "type": "String",
-      "value": ""
+      "value": "6"
      },
      {
       "name": "bootstrapMedium",
@@ -1182,7 +1205,7 @@
      {
       "name": "bootstrapSmall",
       "type": "String",
-      "value": ""
+      "value": "6"
      },
      {
       "name": "bootstrapMedium",
@@ -1227,6 +1250,69 @@
     ],
     "type": "LayoutBootstrapColumn",
     "typeDesc": "Column"
+   },
+   {
+    "id": "bee66978-6266-0223-6db5-2768eb850286",
+    "type": "LayoutBootstrapColumn",
+    "typeDesc": "Column",
+    "parent": "c62222d7-0bd5-3566-fabe-10b14bf02d4f",
+    "properties": [
+     {
+      "name": "name",
+      "value": "selectionObj",
+      "type": "Id"
+     },
+     {
+      "name": "bootstrapExtraSmall",
+      "value": "12",
+      "type": "String"
+     },
+     {
+      "name": "bootstrapSmall",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "bootstrapMedium",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "bootstrapLarge",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "bootstrapCssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
    },
    {
     "id": "bbef85dd-f152-ca2a-303b-538c77827f3d",

@@ -14,33 +14,13 @@
 define([
   'amd!cdf/lib/underscore',
   '../../../lib/baseEvents/BaseEvents',
-  './Model',
-  'pentaho/type/Context',
-  'pentaho/type/filter/abstract',
-  'pentaho/type/filter/isIn',
-  'pentaho/type/filter/and',
-  'pentaho/type/filter/or'
-], function(_, BaseEvents,
-            Model,
-            Context,
-            abstractFilterFactory, isInFactory, andFactory, orFactory
-) {
+  './Model'
+], function(_, BaseEvents, Model) {
 
   'use strict';
 
 
   var SelectionStates = Model.SelectionStates;
-  var context = new Context();
-  var AbstractFilter = context.get(abstractFilterFactory);
-  var IsInFilter = context.get(isInFactory);
-  var AndFilter = context.get(andFactory);
-  var OrFilter = context.get(orFactory);
-
-  var Filter = AbstractFilter.extend({
-    contains: function() {
-      return false;
-    }
-  });
 
   /**
    * @class cdf.components.filter.core.OutputDataHandler
@@ -181,7 +161,7 @@ define([
 
 
 
-  function toFilter(modelGroup, modelGroupParent){
+  function toFilter(modelGroup){
     switch(modelGroup.getSelection()){
       case SelectionStates.ALL:
         return isIn([modelGroup], modelGroup.parent());
@@ -195,9 +175,7 @@ define([
           .reject(function(m) {
             return m.getSelection() === SelectionStates.NONE;
           })
-          .map(function(m){
-            return toFilter(m, modelGroup.parent());
-          })
+          .map(toFilter)
           .compact()
           .value();
 
@@ -258,8 +236,7 @@ define([
   function isIn(modelList, modelParent) {
     return {
       "_": "pentaho/type/filter/isIn",
-      property: 'id',
-      parent: modelParent ? modelParent.get('id') : null, // TODO is this hack needed?
+      property: modelParent ? modelParent.get('id') : null, // TODO is this hack needed?
       values: _.map(modelList, function(model) {
         return {
           "_": "string",

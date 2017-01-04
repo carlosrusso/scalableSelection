@@ -64,7 +64,10 @@ MEMBER [Measures].[Line] AS [Product].CURRENTMEMBER.PARENT.Name
 MEMBER [Measures].[VendorID] AS [Product].CURRENTMEMBER.PARENT.PARENT.uniqueName
 MEMBER [Measures].[Vendor] AS [Product].CURRENTMEMBER.PARENT.PARENT.Name
 
-SET [COLUMN_SET] AS { [Measures].[VendorID], [Measures].[Vendor], [Measures].[LineID], [Measures].[Line]}
+SET [COLUMN_SET] AS { 
+[Measures].[VendorID], [Measures].[Vendor], 
+[Measures].[LineID], [Measures].[Line]
+}
 SET [ROW_SET] AS {[Product].[Product].MEMBERS}
 
 SELECT

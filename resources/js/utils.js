@@ -1,4 +1,4 @@
-define(['cdf/lib/underscore'], function(_) {
+define(['amd!cdf/lib/underscore'], function(_) {
 
   function transform(obj) {
     // obj = {
@@ -49,7 +49,7 @@ define(['cdf/lib/underscore'], function(_) {
     if (rootOp === 'isIn') {
       // LEAF case      
       exp = _.pluck(obj.values, 'v').join();
-      if (obj.parent === null) {
+      if (obj.property === null) {
         exp += '.MEMBERS';
       }
 
