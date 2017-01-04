@@ -12,12 +12,10 @@
  */
 
 define([
+  './_register',
   './template',
-  'cdf/lib/jquery',
-  'cdf/lib/mustache',
-  'cdf/Dashboard.Clean',
-  'cdf/AddIn'
-], function(templateAddIn, $, Mustache, Dashboard, AddIn) {
+  'cdf/lib/jquery'
+], function(registerAddIn, templateAddIn, $) {
 
   'use strict';
 
@@ -47,8 +45,8 @@ define([
       }
     }
   });
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'renderRootSelection',
-    new AddIn(notificationSelectionLimit));
+
+  registerAddIn('renderRootSelection', notificationSelectionLimit);
 
   return notificationSelectionLimit;
 

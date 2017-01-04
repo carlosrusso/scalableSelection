@@ -12,9 +12,8 @@
  */
 
 define([
-  'cdf/Dashboard.Clean',
-  'cdf/AddIn'
-], function(Dashboard, AddIn) {
+  './_register'
+], function(registerAddIn) {
 
   'use strict';
 
@@ -36,7 +35,7 @@ define([
     },
 
     implementation: function($tgt, st, options) {
-      return function(left, right){
+      return function(left, right) {
         var l = left.get(options.property);
         var r = right.get(options.property);
 
@@ -46,11 +45,12 @@ define([
         }
         return -comparison;
 
-      }
+      };
     }
   };
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'sortItem', new AddIn(sortByProperty));
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'sortGroup', new AddIn(sortByProperty));
+
+  registerAddIn('sortItem', sortByProperty);
+  registerAddIn('sortGroup', sortByProperty);
 
   return sortByProperty;
 });

@@ -12,9 +12,8 @@
  */
 
 define([
-  'cdf/Dashboard.Clean',
-  'cdf/AddIn'
-], function(Dashboard, AddIn) {
+  './_register'
+], function(registerAddIn) {
 
   'use strict';
 
@@ -50,6 +49,6 @@ define([
     }
   };
 
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'postUpdate', new AddIn(accordion));
+  registerAddIn('postUpdate', accordion);
   return accordion;
 });

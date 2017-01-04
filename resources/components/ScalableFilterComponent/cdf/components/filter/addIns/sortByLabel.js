@@ -13,10 +13,9 @@
 
 define([
   'cdf/lib/jquery',
-  'cdf/Dashboard.Clean',
-  'cdf/AddIn',
+  './_register',
   './sortByProperty'
-], function($, Dashboard, AddIn, sortByProperty) {
+], function($, registerAddIn, sortByProperty) {
 
   'use strict';
 
@@ -41,9 +40,9 @@ define([
       }
     }
   });
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'sortItem', new AddIn(sortByLabel));
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'sortGroup', new AddIn(sortByLabel));
 
+  registerAddIn('sortItem', sortByLabel);
+  registerAddIn('sortGroup', sortByLabel);
 
   return sortByLabel;
 });

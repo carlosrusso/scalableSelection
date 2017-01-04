@@ -12,9 +12,8 @@
  */
 
 define([
-  'cdf/Dashboard.Clean',
-  'cdf/AddIn'
-], function(Dashboard, AddIn) {
+  './_register'
+], function(registerAddIn) {
 
   'use strict';
 
@@ -27,7 +26,7 @@ define([
     implementation: function($tgt, st, options) {
 
       // setup listener
-      st.model.on('all', function(event, model, value){
+      st.model.on('all', function(event, model, value) {
         if (event === 'change:isSelected') {
           var parent = model.parent();
           if (parent) {
@@ -61,8 +60,8 @@ define([
       };
     }
   };
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'sortItem', new AddIn(selectedOnTop));
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'sortGroup', new AddIn(selectedOnTop));
+  registerAddIn('sortItem', selectedOnTop);
+  registerAddIn('sortGroup', selectedOnTop);
 
   return selectedOnTop;
 

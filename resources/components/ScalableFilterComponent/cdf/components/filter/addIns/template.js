@@ -15,9 +15,8 @@ define([
   'amd!cdf/lib/underscore',
   'cdf/lib/mustache',
   '../HtmlUtils',
-  'cdf/Dashboard.Clean',
-  'cdf/AddIn'
-], function(_, Mustache, htmlUtils, Dashboard, AddIn) {
+  './_register'
+], function(_, Mustache, htmlUtils, registerAddIn) {
 
   'use strict';
 
@@ -70,7 +69,7 @@ define([
     'renderItemSelection'
   ];
   _.each(slots, function(slot) {
-    Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', slot, new AddIn(template));
+    registerAddIn(slot, template);
   });
 
   return template;

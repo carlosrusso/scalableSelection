@@ -13,9 +13,8 @@
 
 define([
   'amd!cdf/lib/underscore',
-  'cdf/Dashboard.Clean',
-  'cdf/AddIn'
-], function(_, Dashboard, AddIn) {
+  './_register'
+], function(_, registerAddIn) {
 
   'use strict';
 
@@ -32,7 +31,7 @@ define([
     }
   };
 
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'renderItemSelection', new AddIn(randomColor));
+  registerAddIn('renderItemSelection', randomColor);
 
   return randomColor;
 });

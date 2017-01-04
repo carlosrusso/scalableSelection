@@ -14,9 +14,8 @@
 define([
   'amd!cdf/lib/underscore',
   'cdf/lib/mustache',
-  'cdf/Dashboard.Clean',
-  'cdf/AddIn'
-], function(_, Mustache, Dashboard, AddIn) {
+  './_register'
+], function(_, Mustache, registerAddIn) {
 
   'use strict';
 
@@ -57,8 +56,9 @@ define([
       return $tgt.find(filter + ':eq(0)').html(html);
     }
   };
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'renderRootSelection', new AddIn(sumValues));
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'renderGroupSelection', new AddIn(sumValues));
+
+  registerAddIn('renderRootSelection', sumValues);
+  registerAddIn('renderGroupSelection', sumValues);
 
   return sumValues;
 });

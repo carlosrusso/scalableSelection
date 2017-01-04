@@ -12,9 +12,8 @@
  */
 
 define([
-  'cdf/Dashboard.Clean',
-  'cdf/AddIn'
-], function(Dashboard, AddIn) {
+  './_register'
+], function(registerAddIn) {
 
   'use strict';
 
@@ -32,19 +31,19 @@ define([
         var l = left.cid;
         var r = right.cid;
 
-        if (l=== r) {
+        if (l === r) {
           return 0;
         }
-        if(!options.ascending){
-          return l < r ? 1 : -1
+        if (!options.ascending) {
+          return l < r ? 1 : -1;
         }
-        return l < r ? -1 : 1
-      }
+        return l < r ? -1 : 1;
+      };
     }
   };
 
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'sortItem', new AddIn(insertionOrder));
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'sortGroup', new AddIn(insertionOrder));
+  registerAddIn('sortItem', insertionOrder);
+  registerAddIn('sortGroup', insertionOrder);
 
   return insertionOrder;
 

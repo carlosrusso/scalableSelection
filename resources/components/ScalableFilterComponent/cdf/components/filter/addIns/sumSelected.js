@@ -12,12 +12,9 @@
  */
 
 define([
-  'cdf/lib/jquery',
   'amd!cdf/lib/underscore',
-  'cdf/lib/mustache',
-  'cdf/Dashboard.Clean',
-  'cdf/AddIn'
-], function($, _, Mustache, Dashboard, AddIn) {
+  './_register'
+], function(_, registerAddIn) {
 
   'use strict';
 
@@ -50,8 +47,9 @@ define([
       return $tgt.find(filter + ':eq(0)').html(total === 0 ? '' : total);
     }
   };
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'renderRootSelection', new AddIn(sumSelected));
-  Dashboard.registerGlobalAddIn('ImproveDigitalFilterComponent', 'renderGroupSelection', new AddIn(sumSelected));
+
+  registerAddIn('renderRootSelection', sumSelected);
+  registerAddIn('renderGroupSelection', sumSelected);
 
   return sumSelected;
 
