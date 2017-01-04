@@ -224,10 +224,10 @@ define([
   function toFilter(modelGroup){
     switch(modelGroup.getSelection()){
       case SelectionStates.ALL:
-        return isIn([modelGroup]);
+        return isIn([modelGroup], modelGroup);
 
       case SelectionStates.NONE:
-        return isIn([]);
+        return isIn([], modelGroup);
 
       case SelectionStates.SOME:
 
@@ -239,8 +239,7 @@ define([
           .compact()
           .value();
 
-        if(operands.length === 0) return null;
-
+        //if(operands.length === 0) return null;
         //operands = simplifyIsIn(operands);
 
         switch(operands.length) {
@@ -294,10 +293,11 @@ define([
     return result;
   }
 
-  function isIn(modelList) {
+  function isIn(modelList, modelParent) {
     return {
       "_": "pentaho/type/filter/isIn",
       property: 'id',
+      parent: modelParent ? modelParent.get('id') : null, // TODO is this hack needed?
       values: _.map(modelList, function(model) {
         return {
           "_": "string",

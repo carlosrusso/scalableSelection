@@ -187,7 +187,7 @@
      {
       "name": "options",
       "type": "JavaScript",
-      "value": "function options(){\n    return {\n        input: {\n            indexes: [{\n                id: 1,\n                label:2\n            }],\n            root: {\n                id: \"Pai\"\n            }\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
+      "value": "function options(){\n    return {\n        input: {\n            indexes: [{\n                id: 1,\n                label:2\n            }],\n            root: {\n                id: \"[Product].[Line]\"\n            }\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
      }
     ],
     "rowName": "Scalable Filter Component",
@@ -613,7 +613,7 @@
      {
       "name": "customfunction",
       "type": "JavaScript",
-      "value": "function(){\n    \n    var selection = this.dashboard.getParameterValue(\"paramSelection\");\n    // eval(''); debugger;\n    // utils.transform();\n    \n    var mdxExpression = \"SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}\";\n    this.dashboard.fireChange(\"paramMDX\", mdxExpression);\n} "
+      "value": "function(){\n    \n    var selection = this.dashboard.getParameterValue(\"paramSelection\");\n    // eval(''); debugger;\n    var mdxExpression = utils.transform(selection);\n    //var mdxExpression = \"SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}\";\n    \n    this.dashboard.fireChange(\"paramMDX\", mdxExpression);\n} "
      },
      {
       "name": "parameters",
