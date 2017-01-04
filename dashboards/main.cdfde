@@ -266,7 +266,7 @@
      {
       "name": "pageSize",
       "type": "Integer",
-      "value": "10"
+      "value": "30"
      },
      {
       "name": "showIcons",

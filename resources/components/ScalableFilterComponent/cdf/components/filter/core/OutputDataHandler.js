@@ -241,7 +241,7 @@ define([
 
         if(operands.length === 0) return null;
 
-        operands = simplifyIsIn(operands);
+        //operands = simplifyIsIn(operands);
 
         switch(operands.length) {
           case 0:
