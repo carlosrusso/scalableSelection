@@ -366,7 +366,7 @@
      {
       "name": "options",
       "type": "JavaScript",
-      "value": "function options(){\n    return {\n        input: {\n            indexes: [{\n                id: 1,\n                label:2\n            }, {\n                id: 3,\n                label: 4\n            }]\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
+      "value": "function options(){\n    return {\n        input: {\n            indexes: [{\n                id: 1,\n                label:2\n            }, {\n                id: 3,\n                label: 4\n            }],\n            root: {\n                id: \"[Product].[Line]\"\n            }\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
      }
     ],
     "rowName": "Scalable Filter Component",

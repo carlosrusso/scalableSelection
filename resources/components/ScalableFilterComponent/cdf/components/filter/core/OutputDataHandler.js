@@ -149,47 +149,7 @@ define([
     getFilter: function(selectionState) {
       var root = this.model;
 
-      return toFilter(root);
-
-      function item(model) {
-        return model;
-      }
-
-      function combine(list, modelGroup) {
-
-        switch(modelGroup.getSelection()){
-          case SelectionStates.ALL:
-            return isIn([modelGroup]);
-
-          case SelectionStates.NONE:
-            return not(isIn([modelGroup]));
-
-          case SelectionStates.SOME:
-            var modelsAndSpecs = _.partition(_.compact(list), function(m) {
-              return m.get; // hack to determine if
-            });
-            var included = _.filter(modelsAndSpecs[0], function(m) {
-              return m.getSelection() === SelectionStates.ALL;
-            });
-
-            var operands = modelsAndSpecs[1].length ? modelsAndSpecs[1] : [];
-            if (included){
-              var spec = isIn(included);
-              if(operands.length){
-                operands.push(spec);
-              } else {
-                operands = [spec];
-              }
-            }
-            return operands.length ? {
-              "_": "pentaho/type/filter/or",
-              operands: operands
-            } : null;
-
-        }
-      }
-
-      return root.walkDown(item, combine, null);
+      return toFilter(root, root);
 
     },
 
@@ -221,13 +181,13 @@ define([
 
 
 
-  function toFilter(modelGroup){
+  function toFilter(modelGroup, modelGroupParent){
     switch(modelGroup.getSelection()){
       case SelectionStates.ALL:
-        return isIn([modelGroup], modelGroup);
+        return isIn([modelGroup], modelGroup.parent());
 
       case SelectionStates.NONE:
-        return isIn([], modelGroup);
+        return isIn([], modelGroup.parent());
 
       case SelectionStates.SOME:
 
@@ -235,7 +195,9 @@ define([
           .reject(function(m) {
             return m.getSelection() === SelectionStates.NONE;
           })
-          .map(toFilter)
+          .map(function(m){
+            return toFilter(m, modelGroup.parent());
+          })
           .compact()
           .value();
 
