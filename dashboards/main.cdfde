@@ -87,7 +87,7 @@
      {
       "name": "pageSize",
       "type": "Integer",
-      "value": "10"
+      "value": "15"
      },
      {
       "name": "showIcons",
@@ -187,7 +187,7 @@
      {
       "name": "options",
       "type": "JavaScript",
-      "value": "function options(){\n    return {\n        input: {\n            indexes: [{\n                id: 1,\n                label:2\n            }],\n            root: {\n                id: \"[Product].[Line]\"\n            }\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
+      "value": "function options(){\n    return {\n        input: {\n           indexes: [{\n               id: 1,\n               label:2\n           }],\n           root: {\n               id: '[Product].[Vendor]'\n           }\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
      }
     ],
     "rowName": "Scalable Filter Component",
@@ -871,121 +871,121 @@
    },
    {
     "id": "3eaae721-fc22-37b7-8815-9950a4f762eb",
-    "type": "ComponentstextComponent",
-    "typeDesc": "Text Component",
     "parent": "OTHERCOMPONENTS",
     "properties": [
      {
       "name": "name",
-      "value": "showSelection",
-      "type": "Id"
+      "type": "Id",
+      "value": "showSelection"
      },
      {
       "name": "listeners",
-      "value": "[\"${p:paramSelection}\"]",
-      "type": "Listeners"
+      "type": "Listeners",
+      "value": "[\"${p:paramSelection}\"]"
      },
      {
       "name": "expression",
-      "value": "function(){\n var selection = this.dashboard.getParameterValue(\"paramSelection\");\n    \n    var html = \"<pre>\" + JSON.stringify(selection, true, \" \") + \"</pre>\";\n    \n    return html;\n    this.placeholder()\n        .empty()\n        .html(html);\n    \n    } ",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": "function(){\n var selection = this.dashboard.getParameterValue(\"paramSelection\");\n    \n    var html = \"<pre>\" + JSON.stringify(selection, true, \" \") + \"</pre>\";\n    \n    return html;\n    this.placeholder()\n        .empty()\n        .html(html);\n    \n    } "
      },
      {
       "name": "priority",
-      "value": 5,
-      "type": "Integer"
+      "type": "Integer",
+      "value": 5
      },
      {
       "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
+      "type": "Integer",
+      "value": ""
      },
      {
       "name": "htmlObject",
-      "value": "${h:selectionObj}",
-      "type": "HtmlObject"
+      "type": "HtmlObject",
+      "value": "${h:selectionObj}"
      },
      {
       "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "true"
      },
      {
       "name": "preExecution",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "tooltip",
-      "value": "",
-      "type": "Html"
+      "type": "Html",
+      "value": ""
      }
     ],
-    "rowName": "Text Component"
+    "rowName": "Text Component",
+    "type": "ComponentstextComponent",
+    "typeDesc": "Text Component"
    },
    {
     "id": "f21bcb8c-f954-879f-a4f8-457ddf8e9f4e",
-    "type": "ComponentstextComponent",
-    "typeDesc": "Text Component",
     "parent": "OTHERCOMPONENTS",
     "properties": [
      {
       "name": "name",
-      "value": "showMDX",
-      "type": "Id"
+      "type": "Id",
+      "value": "showMDX"
      },
      {
       "name": "listeners",
-      "value": "[\"${p:paramMDX}\"]",
-      "type": "Listeners"
+      "type": "Listeners",
+      "value": "[\"${p:paramMDX}\"]"
      },
      {
       "name": "expression",
-      "value": "function(){\n    var mdx = this.dashboard.getParameterValue(\"paramMDX\");\n\n    var html = \"<pre>\" + mdx + \"</pre>\";\n    return html;\n} ",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": "function(){\n    var mdx = this.dashboard.getParameterValue(\"paramMDX\");\n\n    var html = \"<pre>\" + mdx + \"</pre>\";\n    return html;\n} "
      },
      {
       "name": "priority",
-      "value": 5,
-      "type": "Integer"
+      "type": "Integer",
+      "value": 5
      },
      {
       "name": "refreshPeriod",
-      "value": "",
-      "type": "Integer"
+      "type": "Integer",
+      "value": ""
      },
      {
       "name": "htmlObject",
-      "value": "${h:mdxObj}",
-      "type": "HtmlObject"
+      "type": "HtmlObject",
+      "value": "${h:mdxObj}"
      },
      {
       "name": "executeAtStart",
-      "value": "true",
-      "type": "Boolean"
+      "type": "Boolean",
+      "value": "true"
      },
      {
       "name": "preExecution",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "postExecution",
-      "value": "",
-      "type": "JavaScript"
+      "type": "JavaScript",
+      "value": ""
      },
      {
       "name": "tooltip",
-      "value": "",
-      "type": "Html"
+      "type": "Html",
+      "value": ""
      }
     ],
-    "rowName": "Text Component"
+    "rowName": "Text Component",
+    "type": "ComponentstextComponent",
+    "typeDesc": "Text Component"
    },
    {
     "id": "GENERIC",
@@ -1013,7 +1013,7 @@
      {
       "name": "javaScript",
       "type": "JavaScript",
-      "value": "\"SET ROW_SET as {}\" "
+      "value": "\"{}\" "
      },
      {
       "name": "parameterViewRole",
@@ -1117,7 +1117,7 @@
      {
       "name": "query",
       "type": "CurrentMdxQuery",
-      "value": "WITH\n  SET [COLS] AS {[Measures].[Sales]}\n  ${SetFilterExpression}\n\nSELECT\n  [COLS] ON COLUMNS,\n  [ROW_SET] ON ROWS\nFROM [SteelWheelsSales]"
+      "value": "WITH\n  SET [COLS] AS {[Measures].[Sales]}\n  SET [ROW_SET] AS ${SetFilterExpression}\n\nSELECT\n  [COLS] ON COLUMNS,\n  [ROW_SET] ON ROWS\nFROM [SteelWheelsSales]"
      },
      {
       "name": "parameters",
@@ -1199,7 +1199,7 @@
      {
       "name": "query",
       "type": "CurrentMdxQuery",
-      "value": "WITH\n\nMEMBER [Measures].[LineID] AS [Product].CURRENTMEMBER.uniqueName\nMEMBER [Measures].[Line] AS [Product].CURRENTMEMBER.Name\n\nSET [COLUMN_SET] AS { [Measures].[LineID], [Measures].[Line]}\nSET [ROW_SET] AS {[Product].[Line].MEMBERS}\n\nSELECT\n  [COLUMN_SET] ON COLUMNS,\n  [ROW_SET] ON ROWS\nFROM [SteelWheelsSales]"
+      "value": "WITH\n\nMEMBER [Measures].[VendorID] AS [Product].CURRENTMEMBER.uniqueName\nMEMBER [Measures].[Vendor] AS [Product].CURRENTMEMBER.Name\nMEMBER [Measures].[ElementName] AS [Product].[Vendor].uniqueName\n\nSET [COLUMN_SET] AS {\n[Measures].[VendorID], [Measures].[Vendor],\n[Measures].[ElementName]\n}\nSET [ROW_SET] AS {[Product].[Vendor].MEMBERS}\n\nSELECT\n [COLUMN_SET] ON COLUMNS,\n [ROW_SET] ON ROWS\nFROM [SteelWheelsSales]"
      },
      {
       "name": "parameters",
@@ -1422,26 +1422,26 @@
   "rows": [
    {
     "id": "ea5b4ad0-cc55-f027-cc65-038fbb5ac469",
-    "type": "LayoutResourceCode",
-    "typeDesc": "Resource",
     "parent": "UnIqEiD",
     "properties": [
      {
       "name": "name",
-      "value": "css",
-      "type": "Id"
+      "type": "Id",
+      "value": "css"
      },
      {
       "name": "resourceCode",
-      "value": ".filter-root-items-container.mCustomScrollbar {\n    height: 400px;\n    padding: 10px 0;\n}\n\n.filter-group-body {\n    padding: 0 10px;\n}\n\n.filter-group-label {\n    font-size: 16px;\n}\n\n.filter-group-invert {\n    padding: 0 15px;\n} ",
-      "type": "Resource"
+      "type": "Resource",
+      "value": ".filter-root-items-container.mCustomScrollbar {\n    height: 400px;\n    padding: 10px 0;\n}\n\n.filter-group-body {\n    padding: 0 10px;\n}\n\n.filter-group-label {\n    font-size: 16px;\n}\n\n.filter-group-invert {\n    padding: 0 15px;\n} "
      },
      {
       "name": "resourceType",
-      "value": "Css",
-      "type": "Label"
+      "type": "Label",
+      "value": "Css"
      }
-    ]
+    ],
+    "type": "LayoutResourceCode",
+    "typeDesc": "Resource"
    },
    {
     "id": "d6c87d92-3336-e5c1-0e1c-a159e8c773d2",
@@ -1695,167 +1695,167 @@
    },
    {
     "id": "684be74f-7ebf-1e2d-4bb5-088dc098f720",
-    "type": "LayoutRow",
-    "typeDesc": "Row",
     "parent": "UnIqEiD",
     "properties": [
      {
       "name": "name",
-      "value": "",
-      "type": "Id"
+      "type": "Id",
+      "value": ""
      },
      {
       "name": "height",
-      "value": "",
-      "type": "Integer"
+      "type": "Integer",
+      "value": ""
      },
      {
       "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
+      "type": "Color",
+      "value": ""
      },
      {
       "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
+      "type": "RoundCorners",
+      "value": ""
      },
      {
       "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
+      "type": "TextAlign",
+      "value": ""
      },
      {
       "name": "cssClass",
-      "value": "",
-      "type": "String"
+      "type": "String",
+      "value": ""
      }
-    ]
+    ],
+    "type": "LayoutRow",
+    "typeDesc": "Row"
    },
    {
     "id": "bee66978-6266-0223-6db5-2768eb850286",
-    "type": "LayoutBootstrapColumn",
-    "typeDesc": "Column",
     "parent": "684be74f-7ebf-1e2d-4bb5-088dc098f720",
     "properties": [
      {
       "name": "name",
-      "value": "selectionObj",
-      "type": "Id"
+      "type": "Id",
+      "value": "selectionObj"
      },
      {
       "name": "bootstrapExtraSmall",
-      "value": "12",
-      "type": "String"
+      "type": "String",
+      "value": "12"
      },
      {
       "name": "bootstrapSmall",
-      "value": "",
-      "type": "String"
+      "type": "String",
+      "value": ""
      },
      {
       "name": "bootstrapMedium",
-      "value": "",
-      "type": "String"
+      "type": "String",
+      "value": ""
      },
      {
       "name": "bootstrapLarge",
-      "value": "",
-      "type": "String"
+      "type": "String",
+      "value": ""
      },
      {
       "name": "bootstrapCssClass",
-      "value": "",
-      "type": "String"
+      "type": "String",
+      "value": ""
      },
      {
       "name": "height",
-      "value": "",
-      "type": "Integer"
+      "type": "Integer",
+      "value": ""
      },
      {
       "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
+      "type": "Color",
+      "value": ""
      },
      {
       "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
+      "type": "RoundCorners",
+      "value": ""
      },
      {
       "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
+      "type": "TextAlign",
+      "value": ""
      },
      {
       "name": "cssClass",
-      "value": "",
-      "type": "String"
+      "type": "String",
+      "value": ""
      }
-    ]
+    ],
+    "type": "LayoutBootstrapColumn",
+    "typeDesc": "Column"
    },
    {
     "id": "d2a68095-fed0-8942-bdaf-772aef680cbf",
-    "type": "LayoutBootstrapColumn",
-    "typeDesc": "Column",
     "parent": "684be74f-7ebf-1e2d-4bb5-088dc098f720",
     "properties": [
      {
       "name": "name",
-      "value": "mdxObj",
-      "type": "Id"
+      "type": "Id",
+      "value": "mdxObj"
      },
      {
       "name": "bootstrapExtraSmall",
-      "value": "12",
-      "type": "String"
+      "type": "String",
+      "value": "12"
      },
      {
       "name": "bootstrapSmall",
-      "value": "",
-      "type": "String"
+      "type": "String",
+      "value": ""
      },
      {
       "name": "bootstrapMedium",
-      "value": "",
-      "type": "String"
+      "type": "String",
+      "value": ""
      },
      {
       "name": "bootstrapLarge",
-      "value": "",
-      "type": "String"
+      "type": "String",
+      "value": ""
      },
      {
       "name": "bootstrapCssClass",
-      "value": "",
-      "type": "String"
+      "type": "String",
+      "value": ""
      },
      {
       "name": "height",
-      "value": "",
-      "type": "Integer"
+      "type": "Integer",
+      "value": ""
      },
      {
       "name": "backgroundColor",
-      "value": "",
-      "type": "Color"
+      "type": "Color",
+      "value": ""
      },
      {
       "name": "roundCorners",
-      "value": "",
-      "type": "RoundCorners"
+      "type": "RoundCorners",
+      "value": ""
      },
      {
       "name": "textAlign",
-      "value": "",
-      "type": "TextAlign"
+      "type": "TextAlign",
+      "value": ""
      },
      {
       "name": "cssClass",
-      "value": "",
-      "type": "String"
+      "type": "String",
+      "value": ""
      }
-    ]
+    ],
+    "type": "LayoutBootstrapColumn",
+    "typeDesc": "Column"
    },
    {
     "id": "bbef85dd-f152-ca2a-303b-538c77827f3d",

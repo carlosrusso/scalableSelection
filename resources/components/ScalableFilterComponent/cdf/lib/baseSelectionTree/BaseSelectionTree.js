@@ -406,9 +406,19 @@ define([
      * @param {modelSpec} data - A tree model specification
      */
     load: function(data) {
+      if(!data) return;
+      
+      var selectionState = this.getSelection();
+
+      if(selectionState === SelectionStates.ALL || selectionState === SelectionStates.EXCLUDE){
+        data.isSelected = SelectionStates.ALL;
+      }
+      if(selectionState === SelectionStates.NONE || selectionState === SelectionStates.INCLUDE){
+        data.isSelected = SelectionStates.NONE;
+      }
       this.add(data);
 
-      var selectionState = this.getSelection();
+      
       if(_.includes(SelectionStateValues, selectionState)){
         this._setSelection(selectionState);
       }

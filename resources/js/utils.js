@@ -36,10 +36,22 @@ define(['amd!cdf/lib/underscore'], function(_) {
 
     // obj = {
     //   "_": "pentaho/type/filter/isIn",
-    //   "property": "id",
+    //   "property": null,
     //   "values": [
     //   ]
     // }
+
+    /*obj = {
+      "_": "pentaho/type/filter/not",
+      "operand":  {
+          "_": "pentaho/type/filter/isIn",
+          "property": "[Product].[Line]",
+          "values": [
+            {_: "string", v: "[Product].[Classic Cars]"},
+            {_: "string", v: "[Product].[Motorcycles]"}
+          ]
+      }
+    }*/
       
     var exp = '';
     var notExp = '';
@@ -49,7 +61,7 @@ define(['amd!cdf/lib/underscore'], function(_) {
     if (rootOp === 'isIn') {
       // LEAF case      
       exp = _.pluck(obj.values, 'v').join();
-      if (obj.property === null) {
+      if (obj.property === null && obj.values.length) {
         exp += '.MEMBERS';
       }
 
@@ -70,12 +82,21 @@ define(['amd!cdf/lib/underscore'], function(_) {
         }
       });
       exp = expValues.join();
+
+    } else if (rootOp === 'not') {
+      notExists = true;
+      var notOperand = obj.operand;
+
+      exp = notOperand.property;
+      notExp = _.pluck(notOperand.values, 'v').join();
     }
+
+
     if (notExists) {
       exp = 'EXCEPT(' + exp + '.MEMBERS, {' + notExp + '})';
     }
 
-    return 'SET ROW_SET AS {' + exp + '}';
+    return '{' + exp + '}';
 
   }
 

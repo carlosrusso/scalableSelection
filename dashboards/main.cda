@@ -28,7 +28,7 @@
       </Parameters>
       <Query><![CDATA[WITH
   SET [COLS] AS {[Measures].[Sales]}
-  ${SetFilterExpression}
+  SET [ROW_SET] AS ${SetFilterExpression}
 
 SELECT
   [COLS] ON COLUMNS,
@@ -43,15 +43,19 @@ FROM [SteelWheelsSales]]]></Query>
       <Parameters/>
       <Query><![CDATA[WITH
 
-MEMBER [Measures].[LineID] AS [Product].CURRENTMEMBER.uniqueName
-MEMBER [Measures].[Line] AS [Product].CURRENTMEMBER.Name
+MEMBER [Measures].[VendorID] AS [Product].CURRENTMEMBER.uniqueName
+MEMBER [Measures].[Vendor] AS [Product].CURRENTMEMBER.Name
+MEMBER [Measures].[ElementName] AS [Product].[Vendor].uniqueName
 
-SET [COLUMN_SET] AS { [Measures].[LineID], [Measures].[Line]}
-SET [ROW_SET] AS {[Product].[Line].MEMBERS}
+SET [COLUMN_SET] AS {
+[Measures].[VendorID], [Measures].[Vendor],
+[Measures].[ElementName]
+}
+SET [ROW_SET] AS {[Product].[Vendor].MEMBERS}
 
 SELECT
-  [COLUMN_SET] ON COLUMNS,
-  [ROW_SET] ON ROWS
+ [COLUMN_SET] ON COLUMNS,
+ [ROW_SET] ON ROWS
 FROM [SteelWheelsSales]]]></Query>
    </DataAccess>
    <DataAccess access="public" connection="swQueryTwo" id="swQueryTwo" type="mdx">
