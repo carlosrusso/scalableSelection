@@ -25,13 +25,13 @@ define([
    * @property {true}  ALL  - All items selected.
    */
   var SelectionStates = {
-    NONE: "false",
+    NONE: "none",
     INCLUDE: "include",
     EXCLUDE: "exclude",
-    ALL: "true"
+    ALL: "all"
   };
 
-  var SelectionStateValues = ["include", "exclude", "false", "true"];
+  var SelectionStateValues = ["include", "exclude", "none", "all"];
 
   var ISelection = {
 

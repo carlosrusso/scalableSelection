@@ -121,15 +121,28 @@ define([
     },
 
     /**
-     * Transforms the state of the model into a set of conditions
+     * Transforms the state of the model into a set of logical conditions
      *
      * @param selectionState
-     * @returns {pentaho.type.filter.abstract}
+     * @return {pentaho.type.filter.spec.IAbstract} A filter specification object.
      */
     getFilter: function(selectionState) {
       var root = this.model;
 
-      return toFilter(root, root);
+      var isSelected = root.getSelection();
+      var state;
+      switch(isSelected){
+        case SelectionStates.NONE:
+        case SelectionStates.INCLUDE:
+          state = SelectionStates.INCLUDE;
+          break;
+        case SelectionStates.ALL:
+        case SelectionStates.EXCLUDE:
+          state = SelectionStates.EXCLUDE;
+          break;
+      }
+
+      return toFilter(root, state);
 
     },
 
@@ -161,62 +174,64 @@ define([
 
 
 
-  function toFilter(modelGroup){
+  function toFilter(modelGroup, state){
     switch(modelGroup.getSelection()){
       case SelectionStates.ALL:
-        return isIn([modelGroup], modelGroup.parent());
+        if (state === "include") {
+          return isIn(modelGroup.parent(), [modelGroup]);
+        } else {
+          return isIn(modelGroup.parent(), []);
+        }
 
       case SelectionStates.NONE:
-        return isIn([], modelGroup.parent());
+        if (state === "include") {
+          return isIn(modelGroup.parent(), []);
+        } else {
+          return isIn(modelGroup.parent(), [modelGroup]);
+        }
 
       case SelectionStates.INCLUDE:
-        return toPartialFilter(modelGroup, SelectionStates.NONE);
+        return toPartialFilter(modelGroup, SelectionStates.INCLUDE);
 
       case SelectionStates.EXCLUDE:
-        return toPartialFilter(modelGroup, SelectionStates.ALL);
+        return toPartialFilter(modelGroup, SelectionStates.EXCLUDE);
     }
   }
 
-  function toFilterExclude(modelGroup){
-    switch(modelGroup.getSelection()){
-      case SelectionStates.NONE:
-        return isIn([modelGroup], modelGroup.parent());
+  function toPartialFilter(modelGroup, state){
 
-      case SelectionStates.ALL:
-        return isIn([], modelGroup.parent());
-
-      case SelectionStates.INCLUDE:
-        return toPartialFilter(modelGroup, SelectionStates.NONE);
-      case SelectionStates.EXCLUDE: //TODO: must redo this one
-        return toPartialFilter(modelGroup, SelectionStates.ALL);
-    }
-  }
-
-  function toPartialFilter(modelGroup, rejectState){
+    var rejectState = state === SelectionStates.INCLUDE ?  SelectionStates.NONE : SelectionStates.ALL;
 
     var operands = modelGroup.children().chain()
       .reject(function(m) {
         return m.getSelection() === rejectState;
       })
-      .map(toFilter)
+      .map(function(m){
+        return toFilter(m, state);
+      })
       .compact()
       .value();
 
-    //if(operands.length === 0) return null;
-    //operands = simplifyIsIn(operands);
+    if(operands.length === 0) return null;
+    operands = simplifyIsIn(operands);
 
+    var aggregatedOperands = null;
     switch(operands.length) {
       case 0:
-        return null;
+        aggregatedOperands = null;
+        break;
       case 1:
-        return operands[0];
+        aggregatedOperands = operands[0];
+        break;
       default:
-
-        return {
+        aggregatedOperands = {
           "_": "pentaho/type/filter/or",
           operands: operands
         };
+        break;
     }
+
+    return (state === SelectionStates.INCLUDE) ? aggregatedOperands : not(aggregatedOperands);
   }
 
   function simplifyIsIn(operands) {
@@ -227,37 +242,38 @@ define([
     var result = isInOperandsAndOthers[1];
     var isInOperands = isInOperandsAndOthers[0];
 
-    // _.groupBy property
 
-    var isInValues = _.reduce(isInOperands, function(memo, spec) {
-        if(spec.values.length){
+    var byParent = _.groupBy(isInOperands, function(operand){
+      return operand.property;
+    });
+
+    var simplifiedIsInOperands = _.map(byParent, function(operands, parentId) {
+      var isInValues = _.reduce(operands, function(memo, spec) {
+        if (spec.values.length) {
           memo.push.apply(memo, _.compact(_.pluck(spec.values, "v")));
         }
         return memo;
-    }, []);
+      }, []);
 
-    var isInOperand = {
-      "_": "pentaho/type/filter/isIn",
-      property: 'id',
-      values: _.map(isInValues, function(v) {
-        return {
-          "_": "string",
-          v: v
-        };
-      })
-    };
+      var isInOperand = {
+        "_": "pentaho/type/filter/isIn",
+        property: parentId,
+        values: _.map(isInValues, function(v) {
+          return {
+            "_": "string",
+            v: v
+          };
+        })
+      };
+      return isInOperand;
+    });
 
-    if(result.length){
-      result.push(isInOperand)
-    } else if(isInOperand.values.length) {
-      result = [isInOperand];
-    } else {
-      result = null;
-    }
+    result.push.apply(result, simplifiedIsInOperands);
     return result;
+
   }
 
-  function isIn(modelList, modelParent) {
+  function isIn(modelParent, modelList) {
     return {
       "_": "pentaho/type/filter/isIn",
       property: modelParent ? modelParent.get('id') : null, // TODO is this hack needed?
@@ -270,11 +286,32 @@ define([
     };
   }
 
+
   function not(spec) {
-    return {
-      "_": "pentaho/type/filter/not",
-      operand: spec
-    };
+    switch (spec._) {
+      case "pentaho/type/filter/or":
+        return {
+          "_": "pentaho/type/filter/and",
+          operands: _.map(spec.operands, not)
+        };
+
+      case  "pentaho/type/filter/and":
+        return {
+          "_": "pentaho/type/filter/or",
+          operands: _.map(spec.operands, not)
+        };
+
+      case "pentaho/type/filter/not":
+        return spec.operand;
+
+      default:
+        return {
+          "_": "pentaho/type/filter/not",
+          operand: spec
+        };
+    }
+
+
   }
 
 });

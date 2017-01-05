@@ -36,12 +36,10 @@ define([
       };
       configuration.component.Root.view.onModelChange.isSelected = run(['selection', 'controls', 'header', 'groupInvert']);
 
-      // configuration.component.Root.view.events["click .filter-group-invert:eq(0)"] = function(event) {
-      //   invertSelection(this.model);
-      //   this.model.update();
-      // };
-
-
+      configuration.component.Root.view.events["click .filter-group-invert-button:eq(0)"] = function(event) {
+        invertSelection(this.model);
+        return false;
+      };
 
       configuration.component.Group.view.partials.groupInvert = {
         selector: '.filter-group-invert:eq(0)',
@@ -50,15 +48,14 @@ define([
 
       configuration.component.Group.view.main.render.push('groupInvert');
       configuration.component.Group.view.onModelChange.isSelected = run(['selection', 'groupInvert']);
-      configuration.component.Group.view.events["click .filter-group-invert:eq(0)"] = function(event) {
+      configuration.component.Group.view.events["click .filter-group-invert-button:eq(0)"] = function(event) {
         invertSelection(this.model);
-        //this.model.update();
+        return false;
       };
 
       return configuration;
     }
   });
-
 
   function invertSelection(model){
     switch (model.getSelection()){
