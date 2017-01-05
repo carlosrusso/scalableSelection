@@ -130,19 +130,19 @@ define([
       var root = this.model;
 
       var isSelected = root.getSelection();
-      var state;
+      var isInclusive;
       switch(isSelected){
         case SelectionStates.NONE:
         case SelectionStates.INCLUDE:
-          state = SelectionStates.INCLUDE;
+          isInclusive = true;
           break;
         case SelectionStates.ALL:
         case SelectionStates.EXCLUDE:
-          state = SelectionStates.EXCLUDE;
+          isInclusive = false;
           break;
       }
 
-      return toFilter(root, state);
+      return toFilter(root, isInclusive);
 
     },
 
@@ -174,40 +174,51 @@ define([
 
 
 
-  function toFilter(modelGroup, state){
-    switch(modelGroup.getSelection()){
+  function toFilter(modelGroup, parentState){
+    var selectionState = modelGroup.getSelection();
+    switch(selectionState){
       case SelectionStates.ALL:
-        if (state === "include") {
-          return isIn(modelGroup.parent(), [modelGroup]);
-        } else {
+        return isIn(modelGroup.parent(), [modelGroup]);
+
+        if (parentState === SelectionStates.INCLUDE) {
           return isIn(modelGroup.parent(), []);
+        } else {
+          return isIn(modelGroup.parent(), [modelGroup]);
         }
 
       case SelectionStates.NONE:
-        if (state === "include") {
-          return isIn(modelGroup.parent(), []);
-        } else {
+        if (parentState === SelectionStates.EXCLUDE) {
           return isIn(modelGroup.parent(), [modelGroup]);
+        } else {
+          return isIn(modelGroup.parent(), []);
         }
 
-      case SelectionStates.INCLUDE:
-        return toPartialFilter(modelGroup, SelectionStates.INCLUDE);
-
-      case SelectionStates.EXCLUDE:
-        return toPartialFilter(modelGroup, SelectionStates.EXCLUDE);
+      default:
+        return toPartialFilter(modelGroup, selectionState);
+      //
+      //
+      // case SelectionStates.INCLUDE:
+      //   return toPartialFilter(modelGroup, SelectionStates.INCLUDE);
+      //
+      // case SelectionStates.EXCLUDE:
+      //   return toPartialFilter(modelGroup, SelectionStates.EXCLUDE);
     }
   }
 
-  function toPartialFilter(modelGroup, state){
+  function toPartialFilter(modelGroup, parentState){
 
-    var rejectState = state === SelectionStates.INCLUDE ?  SelectionStates.NONE : SelectionStates.ALL;
-
+    var isInclusive = parentState ===  SelectionStates.NONE || parentState ===  SelectionStates.INCLUDE;
     var operands = modelGroup.children().chain()
       .reject(function(m) {
-        return m.getSelection() === rejectState;
+        var state = m.getSelection();
+        if(isInclusive){
+          return state === SelectionStates.NONE || state ===  SelectionStates.INCLUDE;
+        } else {
+          return state === SelectionStates.ALL || state ===  SelectionStates.EXCLUDE;
+        }
       })
       .map(function(m){
-        return toFilter(m, state);
+        return toFilter(m, parentState);
       })
       .compact()
       .value();
@@ -231,7 +242,7 @@ define([
         break;
     }
 
-    return (state === SelectionStates.INCLUDE) ? aggregatedOperands : not(aggregatedOperands);
+    return isInclusive ? aggregatedOperands : not(aggregatedOperands);
   }
 
   function simplifyIsIn(operands) {
@@ -301,8 +312,8 @@ define([
           operands: _.map(spec.operands, not)
         };
 
-      case "pentaho/type/filter/not":
-        return spec.operand;
+      //case "pentaho/type/filter/not":
+      //  return spec.operand;
 
       default:
         return {
