@@ -130,21 +130,7 @@ define([
     getFilter: function(selectionState) {
       var root = this.model;
 
-      var isSelected = root.getSelection();
-      var isInclusive;
-      switch(isSelected){
-        case SelectionStates.NONE:
-        case SelectionStates.INCLUDE:
-          isInclusive = true;
-          break;
-        case SelectionStates.ALL:
-        case SelectionStates.EXCLUDE:
-          isInclusive = false;
-          break;
-      }
-
-      return toFilter(root, isSelected);
-
+      return toFilter(root, root.getSelection());
     },
 
     onApply: function(model, _selectionState) {

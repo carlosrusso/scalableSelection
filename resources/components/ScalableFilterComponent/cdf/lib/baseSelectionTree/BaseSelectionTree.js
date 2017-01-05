@@ -502,8 +502,10 @@ define([
       var isReallyAll =
         (nItemsAtServer === undefined) || // the user did not configure the filter with this info
         (states.length === nItemsAtServer) ||
-        (currentState === SelectionStates.EXCLUDE) ||
-        (currentState === SelectionStates.ALL);
+        (currentState !== SelectionStates.INCLUDE);
+
+        // (currentState === SelectionStates.EXCLUDE) ||
+        // (currentState === SelectionStates.ALL);
 
       if (isReallyAll) {
         return SelectionStates.ALL;

@@ -24,9 +24,11 @@ define([
 
   return toFilter;
 
-  function toFilter(modelGroup, parentState){
+  function toFilter(modelGroup, parentState) {
+
     var selectionState = modelGroup.getSelection();
-    switch(selectionState){
+
+    switch (selectionState) {
       case SelectionStates.ALL:
         return isIn(modelGroup.parent(), [modelGroup]);
 
@@ -42,29 +44,31 @@ define([
     }
   }
 
-  function toPartialFilter(modelGroup, parentState){
+  function toPartialFilter(modelGroup, parentState) {
 
-    var isInclusive = parentState ===  SelectionStates.NONE || parentState ===  SelectionStates.INCLUDE;
+    var isInclusive =
+      (parentState === SelectionStates.NONE) ||
+      (parentState === SelectionStates.INCLUDE);
+
+    var rejectState = isInclusive ? SelectionStates.NONE : SelectionStates.ALL;
+
     var operands = modelGroup.children().chain()
       .reject(function(m) {
-        var state = m.getSelection();
-        if(isInclusive){
-          return state === SelectionStates.NONE;
-        } else {
-          return state === SelectionStates.ALL;
-        }
+        return m.getSelection() === rejectState;
       })
-      .map(function(m){
+      .map(function(m) {
         return toFilter(m, parentState);
       })
       .compact()
       .value();
 
-    if(operands.length === 0) return null;
+    if (operands.length === 0) {
+      return null;
+    }
     operands = simplifyIsIn(operands);
 
     var aggregatedOperands = null;
-    switch(operands.length) {
+    switch (operands.length) {
       case 0:
         aggregatedOperands = null;
         break;
@@ -73,25 +77,37 @@ define([
         break;
       default:
         aggregatedOperands = {
-          //"_": isInclusive ? "pentaho/type/filter/or" : "pentaho/type/filter/and",
           "_": "pentaho/type/filter/or",
           operands: operands
         };
         break;
     }
 
-    return modelGroup.getSelection() === SelectionStates.EXCLUDE ? not(aggregatedOperands) : aggregatedOperands;
+    var isExclude =  modelGroup.getSelection() === SelectionStates.EXCLUDE;
+    if(isExclude){
+      var childrenWithExcludes = modelGroup.children().filter(function(m){
+        return m.getSelection() === SelectionStates.EXCLUDE;
+      });
+
+      if(childrenWithExcludes.length){
+        return aggregatedOperands; // should this be changed to an AND ?
+      } else {
+        return not(aggregatedOperands);
+      }
+    }
+
+    return aggregatedOperands;
   }
 
   function simplifyIsIn(operands) {
-    var isInOperandsAndOthers = _.partition(operands, function(spec){
+    var isInOperandsAndOthers = _.partition(operands, function(spec) {
       return spec["_"] === "pentaho/type/filter/isIn";
     });
 
     var result = isInOperandsAndOthers[1];
     var isInOperands = isInOperandsAndOthers[0];
 
-    var byParent = _.groupBy(isInOperands, function(operand){
+    var byParent = _.groupBy(isInOperands, function(operand) {
       return operand.property;
     });
 
