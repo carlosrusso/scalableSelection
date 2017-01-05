@@ -9,10 +9,8 @@ define([
   var SelectionStates = Model.SelectionStates;
 
   var templateInvert = [
-    '<div class="filter-group-invert">',
     ' <span>{{isSelected}}</span>',
-    ' <button class="filter-group-invert-button">Invert</button>',
-    '</div>'
+    ' <button class="filter-group-invert-button">Invert</button>'
   ].join('');
 
   function run(partials, delay) {
@@ -31,6 +29,7 @@ define([
     getConfiguration: function() {
       var configuration = this.base();
 
+      configuration.component.Root.view.main.render.push('groupInvert');
       configuration.component.Root.view.partials.groupInvert = {
         selector: '.filter-group-invert:eq(0)',
         template: templateInvert
@@ -49,6 +48,7 @@ define([
         template: templateInvert
       };
 
+      configuration.component.Group.view.main.render.push('groupInvert');
       configuration.component.Group.view.onModelChange.isSelected = run(['selection', 'groupInvert']);
       configuration.component.Group.view.events["click .filter-group-invert:eq(0)"] = function(event) {
         invertSelection(this.model);
