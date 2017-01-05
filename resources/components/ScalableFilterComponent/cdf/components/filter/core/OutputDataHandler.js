@@ -143,7 +143,7 @@ define([
           break;
       }
 
-      return toFilter(root, isInclusive);
+      return toFilter(root, isSelected);
 
     },
 

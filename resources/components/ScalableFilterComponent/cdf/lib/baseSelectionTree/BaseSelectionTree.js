@@ -318,7 +318,7 @@ define([
 
     filterBy: function(text) {
       var root = this.root();
-      if(text !== root.get('searchPattern')){
+      if (text !== root.get('searchPattern')) {
         root.set('searchPattern', text); //,{silent: true});
       }
 
@@ -402,7 +402,9 @@ define([
      * @param {modelSpec} data - A tree model specification
      */
     load: function(data) {
-      if(!data) return;
+      if (!data) {
+        return;
+      }
 
       var selectionState = this.getSelection();
 
@@ -419,7 +421,7 @@ define([
       this.add(data);
 
 
-      if(_.includes(SelectionStateValues, selectionState)){
+      if (_.includes(SelectionStateValues, selectionState)) {
         this._setSelection(selectionState);
       }
 
@@ -432,7 +434,7 @@ define([
     },
 
     count: function(countItemCallback) {
-      if(!countItemCallback){
+      if (!countItemCallback) {
         countItemCallback = function() {
           return 1;
         };
@@ -459,7 +461,7 @@ define([
   return BaseSelectionTree;
 
   function computeNumberOfItems(list, model) {
-    switch(model.getSelection()) {
+    switch (model.getSelection()) {
       case SelectionStates.NONE:
         return 0;
 
@@ -492,26 +494,33 @@ define([
   function reduceSelectionStates(states, self) {
     var currentState = self.getSelection();
 
-    var all = _.every(states, function(el) {
+    var isAll = _.every(states, function(el) {
       return el === SelectionStates.ALL;
     });
-    if (all) {
-      return SelectionStates.ALL;
+    if (isAll) {
+      var nItemsAtServer = self.get('numberOfItemsAtServer');
+      var isReallyAll =
+        (nItemsAtServer === undefined) || // the user did not configure the filter with this info
+        (states.length === nItemsAtServer) ||
+        (currentState === SelectionStates.EXCLUDE) ||
+        (currentState === SelectionStates.ALL);
+
+      if (isReallyAll) {
+        return SelectionStates.ALL;
+      }
     }
 
-    var none = _.every(states, function(el) {
+    var isNone = _.every(states, function(el) {
       return el === SelectionStates.NONE;
     });
-    if (none) {
+    if (isNone && currentState !== SelectionStates.EXCLUDE) {
       return SelectionStates.NONE;
     }
-
-    //TODO: review this
-
 
     if (currentState === SelectionStates.NONE || currentState === SelectionStates.INCLUDE) {
       return SelectionStates.INCLUDE;
     }
+
     if (currentState === SelectionStates.ALL || currentState === SelectionStates.EXCLUDE) {
       return SelectionStates.EXCLUDE;
     }
