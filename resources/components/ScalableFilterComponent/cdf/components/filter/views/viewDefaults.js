@@ -241,7 +241,7 @@ define([
       relayEvents: {
         'mouseover .filter-group-container:eq(0)': 'mouseover',
         'mouseout  .filter-group-container:eq(0)': 'mouseout',
-        'click     .filter-group-selection-icon:eq(0)': 'selected',
+        'click     .filter-group-selection:eq(0)': 'selected',
         'click     .filter-collapse-icon:eq(0)': 'toggleCollapse'
       },
       events: {},

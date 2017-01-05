@@ -26,16 +26,6 @@ define([
       if(options.comparator){
         this.setComparator(options.comparator);
       }
-
-      /*
-      var kids = this.kids = {};
-
-      this.on('add', function(model, options){
-        var id = model.get('id');
-        kids[id] = model;
-        console.log('model added', id, options, arguments);
-      });
-      */
     },
 
     setComparator: function(comparator) {

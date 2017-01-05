@@ -34,7 +34,12 @@ define([
         selector: '.filter-group-invert:eq(0)',
         template: templateInvert
       };
-      configuration.component.Root.view.onModelChange.isSelected = run(['selection', 'controls', 'header', 'groupInvert']);
+      configuration.component.Root.view.onModelChange.isSelected = run([
+        'selection',
+        'controls',
+        'header',
+        'groupInvert'
+      ]);
 
       configuration.component.Root.view.events["click .filter-group-invert-button:eq(0)"] = function(event) {
         invertSelection(this.model);
@@ -48,7 +53,10 @@ define([
       };
 
       configuration.component.Group.view.main.render.push('groupInvert');
-      configuration.component.Group.view.onModelChange.isSelected = run(['selection', 'groupInvert']);
+      configuration.component.Group.view.onModelChange.isSelected = run([
+        'selection',
+        'groupInvert'
+      ]);
       configuration.component.Group.view.events["click .filter-group-invert-button:eq(0)"] = function(event) {
         invertSelection(this.model);
         this.model.update();
@@ -59,8 +67,10 @@ define([
     }
   });
 
-  function invertSelection(model){
-    switch (model.getSelection()){
+  function invertSelection(model) {
+    var selection = model.getSelection();
+    var children = model.children();
+    switch (selection) {
       case SelectionStates.NONE:
         model.setSelection(SelectionStates.ALL);
         return;
@@ -70,8 +80,8 @@ define([
         return;
 
       case SelectionStates.INCLUDE:
-        if(model.children()){
-          model.children().each(function(m){
+        if (children) {
+          children.each(function(m) {
             invertSelection(m);
           });
         }
@@ -79,8 +89,8 @@ define([
         return;
 
       case SelectionStates.EXCLUDE:
-        if(model.children()){
-          model.children().each(function(m){
+        if (children) {
+          children.each(function(m) {
             invertSelection(m);
           });
         }

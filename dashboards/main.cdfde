@@ -1432,7 +1432,7 @@
      {
       "name": "resourceCode",
       "type": "Resource",
-      "value": ".filter-root-items-container.mCustomScrollbar {\n    height: 400px;\n    padding: 10px 0;\n}\n\n.filter-group-body {\n    padding: 0 10px;\n}\n\n.filter-group-label {\n    font-size: 16px;\n}\n\n.filter-group-invert {\n    padding: 0 15px;\n} "
+      "value": ".filter-root-items-container.mCustomScrollbar {\n    height: 400px;\n    padding: 10px 0;\n}\n\n.filter-group-body {\n    margin: 0 10px;\n}\n\n.filter-group-label {\n    font-size: 16px;\n}\n\n.filter-group-invert {\n    margin: 0 30px;\n} "
      },
      {
       "name": "resourceType",

@@ -119,7 +119,7 @@ define([
       var root = this.root();
       root.updateSelection();
 
-      root._updateCount('numberOfSelectedItems', countSelectedItem);
+      root._updateCount('numberOfSelectedItems', getSelection);
 
       var numberOfServerItems = root.get('numberOfItemsAtServer');
       if (numberOfServerItems != null) {
@@ -133,10 +133,6 @@ define([
     },
 
     updateSelection: function() {
-      function getSelection(m) {
-        return m.getSelection();
-      }
-
       function setSelection(model, state) {
         if (model.children()) {
           model.setSelection(state);
@@ -410,15 +406,19 @@ define([
 
       var selectionState = this.getSelection();
 
-      if(selectionState === SelectionStates.ALL || selectionState === SelectionStates.EXCLUDE){
-        data.isSelected = SelectionStates.ALL;
-      }
-      if(selectionState === SelectionStates.NONE || selectionState === SelectionStates.INCLUDE){
-        data.isSelected = SelectionStates.NONE;
+      switch (selectionState) {
+        case SelectionStates.ALL:
+        case SelectionStates.EXCLUDE:
+          data.isSelected = SelectionStates.ALL;
+          break;
+        case SelectionStates.NONE:
+        case SelectionStates.INCLUDE:
+          data.isSelected = SelectionStates.NONE;
+          break;
       }
       this.add(data);
 
-      
+
       if(_.includes(SelectionStateValues, selectionState)){
         this._setSelection(selectionState);
       }
@@ -437,7 +437,7 @@ define([
           return 1;
         };
       }
-      return this._walkDown(countItemCallback, sum, null);
+      return this._walkDown(countItemCallback, computeNumberOfItems, null);
     },
 
     _updateCount: function(property, countItemCallback) {
@@ -448,7 +448,7 @@ define([
         return count;
       }
 
-      return this._walkDown(countItemCallback, sum, setPropertyIfParent);
+      return this._walkDown(countItemCallback, computeNumberOfItems, setPropertyIfParent);
     }
 
   }, {
@@ -458,41 +458,29 @@ define([
 
   return BaseSelectionTree;
 
-  function sum(list, model) {
-    var result = _.reduce(list, function(memo, n) {
-      return memo + n;
-    }, 0);
-
+  function computeNumberOfItems(list, model) {
     switch(model.getSelection()) {
-      case SelectionStates.ALL:
-        return model.get('numberOfItemsAtServer');
       case SelectionStates.NONE:
         return 0;
-      case SelectionStates.EXCLUDE:
-        return model.get('numberOfItemsAtServer') + result;
+
+      case SelectionStates.ALL:
+        return model.get('numberOfItemsAtServer');
+
       case SelectionStates.INCLUDE:
-        return result;  
+        return _.reduce(list, function(memo, st) {
+          return st === SelectionStates.ALL ? memo + 1 : memo;
+        }, 0);
+
+      case SelectionStates.EXCLUDE:
+        var excludedItems = _.reduce(list, function(memo, st) {
+          return st === SelectionStates.NONE ? memo + 1 : memo;
+        }, 0);
+        return model.get('numberOfItemsAtServer') - excludedItems;
     }
   }
 
-  function countSelectedItem(model) {
-    var state = model.getSelection();
-    switch(model.parent().getSelection()) {
-      case SelectionStates.ALL:
-        return state === SelectionStates.ALL ? 1: 0;
-      case SelectionStates.NONE:
-        return state === SelectionStates.ALL ? 1: 0;
-      case SelectionStates.EXCLUDE:
-         return state === SelectionStates.NONE ? -1: 0;
-      case SelectionStates.INCLUDE:
-         return state === SelectionStates.ALL ? 1: 0; 
-    }
-
-
-    /*
-     exclude: itemsAtServer - children(NONE)
-     include: 
-     */
+  function getSelection(model) {
+    return model.getSelection();
   }
 
   /**
