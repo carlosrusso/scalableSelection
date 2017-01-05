@@ -14,6 +14,7 @@
 define([
   'cdf/lib/jquery',
   'amd!cdf/lib/underscore',
+  '../core/Model',
   './Root',
   './Group',
   './Item',
@@ -21,10 +22,11 @@ define([
   'css!./styles/filter',
   'css!./styles/filter-legacy',
   'css!./styles/filter-notifications'
-], function($, _, Root, Group, Item, templates) {
+], function($, _, Model, Root, Group, Item, templates) {
 
   "use strict";
 
+  var SelectionStates = Model.SelectionStates;
   /*
    * Default view settings
    */
@@ -239,7 +241,7 @@ define([
       relayEvents: {
         'mouseover .filter-group-container:eq(0)': 'mouseover',
         'mouseout  .filter-group-container:eq(0)': 'mouseout',
-        'click     .filter-group-selection:eq(0)': 'selected',
+        'click     .filter-group-selection-icon:eq(0)': 'selected',
         'click     .filter-collapse-icon:eq(0)': 'toggleCollapse'
       },
       events: {},
@@ -406,10 +408,10 @@ define([
   }
 
   function updateItemSelection($tgt, model, configuration, viewModel, viewConfig) {
-    var isSelected = model.get('isSelected');
+    var isSelected = model.getSelection();
     $tgt
-      .toggleClass('none-selected', !isSelected)
-      .toggleClass('all-selected', isSelected);
+      .toggleClass('none-selected', isSelected === SelectionStates.NONE)
+      .toggleClass('all-selected', isSelected === SelectionStates.ALL);
   }
 
   function updateVisibility($tgt, model, configuration, viewModel, viewConfig) {

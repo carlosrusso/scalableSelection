@@ -25,13 +25,13 @@ define([
    * @property {true}  ALL  - All items selected.
    */
   var SelectionStates = {
-    NONE: false,
+    NONE: "false",
     INCLUDE: "include",
     EXCLUDE: "exclude",
-    ALL: true
+    ALL: "true"
   };
 
-  var SelectionStateValues = ["include", "exclude", false, true];
+  var SelectionStateValues = ["include", "exclude", "false", "true"];
 
   var ISelection = {
 
@@ -176,7 +176,7 @@ define([
       }
 
       var foundChange = _.some(previousSelection.exclude, function(m) {
-        return m.getSelection() != SelectionStates.exclude;
+        return m.getSelection() != SelectionStates.EXCLUDE;
       });
       if (foundChange) {
         return true;

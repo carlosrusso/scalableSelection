@@ -792,7 +792,7 @@
      {
       "name": "customfunction",
       "type": "JavaScript",
-      "value": "function(){\n\n    var selection = this.dashboard.getParameterValue(\"paramSelection\");\n    \n    var html = \"<pre>\" + JSON.stringify(selection, true, \" \") + \"</pre>\";\n    this.placeholder()\n        .empty()\n        .html(html);\n    \n    // eval(''); debugger;\n    var mdxExpression = utils.transform(selection);\n    //var mdxExpression = \"SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}\";\n    \n    this.dashboard.fireChange(\"paramMDX\", mdxExpression);\n} "
+      "value": "function(){\n\n    var selection = this.dashboard.getParameterValue(\"paramSelection\");\n\n    // eval(''); debugger;\n    var mdxExpression = utils.transform(selection);\n    //var mdxExpression = \"SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}\";\n    \n    this.dashboard.fireChange(\"paramMDX\", mdxExpression);\n} "
      },
      {
       "name": "parameters",
@@ -868,6 +868,124 @@
     "rowName": "Freeform Component",
     "type": "Componentsfreeform",
     "typeDesc": "Freeform Component"
+   },
+   {
+    "id": "3eaae721-fc22-37b7-8815-9950a4f762eb",
+    "type": "ComponentstextComponent",
+    "typeDesc": "Text Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "showSelection",
+      "type": "Id"
+     },
+     {
+      "name": "listeners",
+      "value": "[\"${p:paramSelection}\"]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(){\n var selection = this.dashboard.getParameterValue(\"paramSelection\");\n    \n    var html = \"<pre>\" + JSON.stringify(selection, true, \" \") + \"</pre>\";\n    \n    return html;\n    this.placeholder()\n        .empty()\n        .html(html);\n    \n    } ",
+      "type": "JavaScript"
+     },
+     {
+      "name": "priority",
+      "value": 5,
+      "type": "Integer"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "htmlObject",
+      "value": "${h:selectionObj}",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ],
+    "rowName": "Text Component"
+   },
+   {
+    "id": "f21bcb8c-f954-879f-a4f8-457ddf8e9f4e",
+    "type": "ComponentstextComponent",
+    "typeDesc": "Text Component",
+    "parent": "OTHERCOMPONENTS",
+    "properties": [
+     {
+      "name": "name",
+      "value": "showMDX",
+      "type": "Id"
+     },
+     {
+      "name": "listeners",
+      "value": "[\"${p:paramMDX}\"]",
+      "type": "Listeners"
+     },
+     {
+      "name": "expression",
+      "value": "function(){\n    var mdx = this.dashboard.getParameterValue(\"paramMDX\");\n\n    var html = \"<pre>\" + mdx + \"</pre>\";\n    return html;\n} ",
+      "type": "JavaScript"
+     },
+     {
+      "name": "priority",
+      "value": 5,
+      "type": "Integer"
+     },
+     {
+      "name": "refreshPeriod",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "htmlObject",
+      "value": "${h:mdxObj}",
+      "type": "HtmlObject"
+     },
+     {
+      "name": "executeAtStart",
+      "value": "true",
+      "type": "Boolean"
+     },
+     {
+      "name": "preExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "postExecution",
+      "value": "",
+      "type": "JavaScript"
+     },
+     {
+      "name": "tooltip",
+      "value": "",
+      "type": "Html"
+     }
+    ],
+    "rowName": "Text Component"
    },
    {
     "id": "GENERIC",
@@ -1315,7 +1433,7 @@
      },
      {
       "name": "resourceCode",
-      "value": ".filter-root-items-container.mCustomScrollbar {\n    height: 400px;\n    padding: 10px 0;\n}\n\n.filter-group-body {\n    padding: 0 10px;\n}\n\n.filter-group-label {\n    font-size: 16px;\n} ",
+      "value": ".filter-root-items-container.mCustomScrollbar {\n    height: 400px;\n    padding: 10px 0;\n}\n\n.filter-group-body {\n    padding: 0 10px;\n}\n\n.filter-group-label {\n    font-size: 16px;\n}\n\n.filter-group-invert {\n    padding: 0 15px;\n} ",
       "type": "Resource"
      },
      {
@@ -1576,10 +1694,48 @@
     "typeDesc": "Column"
    },
    {
+    "id": "684be74f-7ebf-1e2d-4bb5-088dc098f720",
+    "type": "LayoutRow",
+    "typeDesc": "Row",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "value": "",
+      "type": "Id"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
     "id": "bee66978-6266-0223-6db5-2768eb850286",
     "type": "LayoutBootstrapColumn",
     "typeDesc": "Column",
-    "parent": "c62222d7-0bd5-3566-fabe-10b14bf02d4f",
+    "parent": "684be74f-7ebf-1e2d-4bb5-088dc098f720",
     "properties": [
      {
       "name": "name",
@@ -1639,8 +1795,71 @@
     ]
    },
    {
+    "id": "d2a68095-fed0-8942-bdaf-772aef680cbf",
+    "type": "LayoutBootstrapColumn",
+    "typeDesc": "Column",
+    "parent": "684be74f-7ebf-1e2d-4bb5-088dc098f720",
+    "properties": [
+     {
+      "name": "name",
+      "value": "mdxObj",
+      "type": "Id"
+     },
+     {
+      "name": "bootstrapExtraSmall",
+      "value": "12",
+      "type": "String"
+     },
+     {
+      "name": "bootstrapSmall",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "bootstrapMedium",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "bootstrapLarge",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "bootstrapCssClass",
+      "value": "",
+      "type": "String"
+     },
+     {
+      "name": "height",
+      "value": "",
+      "type": "Integer"
+     },
+     {
+      "name": "backgroundColor",
+      "value": "",
+      "type": "Color"
+     },
+     {
+      "name": "roundCorners",
+      "value": "",
+      "type": "RoundCorners"
+     },
+     {
+      "name": "textAlign",
+      "value": "",
+      "type": "TextAlign"
+     },
+     {
+      "name": "cssClass",
+      "value": "",
+      "type": "String"
+     }
+    ]
+   },
+   {
     "id": "bbef85dd-f152-ca2a-303b-538c77827f3d",
-    "parent": "c62222d7-0bd5-3566-fabe-10b14bf02d4f",
+    "parent": "684be74f-7ebf-1e2d-4bb5-088dc098f720",
     "properties": [
      {
       "name": "name",
