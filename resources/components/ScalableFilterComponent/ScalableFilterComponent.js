@@ -38,6 +38,7 @@ define([
 
       configuration.component.Root.view.events["click .filter-group-invert-button:eq(0)"] = function(event) {
         invertSelection(this.model);
+        this.model.update();
         return false;
       };
 
@@ -50,6 +51,7 @@ define([
       configuration.component.Group.view.onModelChange.isSelected = run(['selection', 'groupInvert']);
       configuration.component.Group.view.events["click .filter-group-invert-button:eq(0)"] = function(event) {
         invertSelection(this.model);
+        this.model.update();
         return false;
       };
 

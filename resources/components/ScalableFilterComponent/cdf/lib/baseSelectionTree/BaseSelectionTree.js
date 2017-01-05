@@ -407,7 +407,7 @@ define([
      */
     load: function(data) {
       if(!data) return;
-      
+
       var selectionState = this.getSelection();
 
       if(selectionState === SelectionStates.ALL || selectionState === SelectionStates.EXCLUDE){
@@ -458,14 +458,41 @@ define([
 
   return BaseSelectionTree;
 
-  function sum(list) {
-    return _.reduce(list, function(memo, n) {
+  function sum(list, model) {
+    var result = _.reduce(list, function(memo, n) {
       return memo + n;
     }, 0);
+
+    switch(model.getSelection()) {
+      case SelectionStates.ALL:
+        return model.get('numberOfItemsAtServer');
+      case SelectionStates.NONE:
+        return 0;
+      case SelectionStates.EXCLUDE:
+        return model.get('numberOfItemsAtServer') + result;
+      case SelectionStates.INCLUDE:
+        return result;  
+    }
   }
 
   function countSelectedItem(model) {
-    return (model.getSelection() === SelectionStates.ALL) ? 1 : 0;
+    var state = model.getSelection();
+    switch(model.parent().getSelection()) {
+      case SelectionStates.ALL:
+        return state === SelectionStates.ALL ? 1: 0;
+      case SelectionStates.NONE:
+        return state === SelectionStates.ALL ? 1: 0;
+      case SelectionStates.EXCLUDE:
+         return state === SelectionStates.NONE ? -1: 0;
+      case SelectionStates.INCLUDE:
+         return state === SelectionStates.ALL ? 1: 0; 
+    }
+
+
+    /*
+     exclude: itemsAtServer - children(NONE)
+     include: 
+     */
   }
 
   /**
