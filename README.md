@@ -67,7 +67,7 @@ To do that, the user writes the following query template for the table:
 ```
 WITH
   SET [COLS] AS {[Measures].[Sales]}
-  ${SetFilterExpression}
+  SET ROW_SET AS ${SetFilterExpression}
 
 SELECT
   [COLS] ON COLUMNS,
@@ -79,14 +79,17 @@ then, depending on the state of the filter, the parameter `SetFilterExpression` 
 
 ```
 -- Single dimension, a given set of items 
-SET ROW_SET as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}
+{
+  [Markets].[APAC].[Australia].[NSW].[Chatswood]
+}
 
 -- Single dimension, ALL items 
-SET ROW_SET as [Markets].[City].MEMBERS
+[Markets].[City].MEMBERS
 
 -- Single dimension, EXCLUDE a given set of items 
-SET Items as {[Markets].[APAC].[Australia].[NSW].[Chatswood]}
-SET ROW_SET as EXCEPT([Markets].[City].MEMBERS, Items)
+EXCEPT([Markets].[City].MEMBERS, { 
+  [Markets].[APAC].[Australia].[NSW].[Chatswood] 
+})
 ```
 
 As a result, the table is fed with a variable number of items.
@@ -140,7 +143,7 @@ The same approach can probably be readily extended to SQL datasources, with litt
 
 ## Appendix: notes on `pentaho.type.filter`
 The examples provided above were writen in a pseudo-code syntax.
-As of January 2017, the serializations are as follows:
+As of January 2017, the serializations are as follows.
 
 ### List of included items
 The expression
@@ -451,11 +454,11 @@ This means that the selection of a group cannot be strictly inferred from the st
 
 Possible states: NONE, INCLUDE, EXCLUDE, ALL
 
-1. Clearing the group selection -> switch to NONE
-2. Setting the group selection -> switch to ALL
+1. Clearing the group selection: switches to NONE
+2. Setting the group selection: switches to ALL
 
-1. Setting the group selection -> switch to ALL
-2. Clearing the group selection -> switch to NONE
+1. Setting the group selection -> switches to ALL
+2. Clearing the group selection -> switches to NONE
 
 1. Clearing the group selection -> switch to NONE
 2. Clicking on a item (select) -> switch from NONE to INCLUDE

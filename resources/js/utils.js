@@ -76,6 +76,7 @@ define(['amd!cdf/lib/underscore'], function(_) {
 
     } else if (rootOp === 'not') {
       // there can only exist a NOT ISIN, at the leaf level
+      // In practice, we are treating NOT ISIN as a single operator
 
       notExists = true;
       var notOperand = obj.operand;
@@ -114,7 +115,7 @@ define(['amd!cdf/lib/underscore'], function(_) {
 
     return exp;
     }
-
+return null;
     throw TypeError('Unrecognized operator');
   }
 

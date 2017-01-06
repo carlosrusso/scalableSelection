@@ -141,7 +141,6 @@ define([
     },
 
     renderOffline: function(event) {
-
       var delays = this.config.view.delays.renderOffline;
       var delay = delays[event] || delays["default"];
       if (delay < 0) {
@@ -157,7 +156,8 @@ define([
     },
 
     _detach: function(){
-      return;
+      return; // TODO: re-enable this
+
       if(this._detachedNodes){
         return;
       }

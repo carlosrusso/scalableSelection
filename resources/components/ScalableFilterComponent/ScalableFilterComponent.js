@@ -9,8 +9,8 @@ define([
   var SelectionStates = Model.SelectionStates;
 
   var templateInvert = [
-    ' <span>{{isSelected}}</span>',
-    ' <button class="filter-group-invert-button">Invert</button>'
+    ' <button class="filter-group-invert-button">Invert</button>',
+    ' <span>{{isSelected}}</span>'
   ].join('');
 
   function run(partials, delay) {

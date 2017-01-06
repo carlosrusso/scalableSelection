@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CDADescriptor>
+   <DataSources>
+      <Connection id="swResult" type="mondrian.jndi">
+         <Catalog>mondrian:/SteelWheels</Catalog>
+         <Jndi>SampleData</Jndi>
+      </Connection>
+      <Connection id="swQueryOne" type="mondrian.jndi">
+         <Catalog>mondrian:/SteelWheels</Catalog>
+         <Jndi>SampleData</Jndi>
+      </Connection>
+      <Connection id="swQueryTwo" type="mondrian.jndi">
+         <Catalog>mondrian:/SteelWheels</Catalog>
+         <Jndi>SampleData</Jndi>
+      </Connection>
+      <Connection id="swQueryThree" type="mondrian.jndi">
+         <Catalog>mondrian:/SteelWheels</Catalog>
+         <Jndi>SampleData</Jndi>
+      </Connection>
+   </DataSources>
+   <DataAccess access="public" connection="swResult" id="swResult" type="mdx">
+      <Name>swResult</Name>
+      <BandedMode>compact</BandedMode>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters>
+         <Parameter default="" name="SetFilterExpression" type="String"/>
+      </Parameters>
+      <Query><![CDATA[WITH
+  SET [COLS] AS {[Measures].[Sales]}
+  SET [ROW_SET] AS ${SetFilterExpression}
+
+SELECT
+  [COLS] ON COLUMNS,
+  [ROW_SET] ON ROWS
+FROM [SteelWheelsSales]]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="swQueryOne" id="swQueryOne" type="mdx">
+      <Name>swQueryOne</Name>
+      <BandedMode>compact</BandedMode>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Output indexes="1,2" mode="include"/>
+      <Parameters/>
+      <Query><![CDATA[WITH
+
+MEMBER [Measures].[ProductID] AS [Product].CURRENTMEMBER.uniqueName
+MEMBER [Measures].[Product] AS [Product].CURRENTMEMBER.Name
+
+SET [COLUMN_SET] AS {
+[Measures].[ProductID], [Measures].[Product]
+}
+SET [ROW_SET] AS {[Product].[Product].MEMBERS}
+
+SELECT
+ [COLUMN_SET] ON COLUMNS,
+ [ROW_SET] ON ROWS
+FROM [SteelWheelsSales]]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="swQueryTwo" id="swQueryTwo" type="mdx">
+      <Name>swQueryTwo</Name>
+      <BandedMode>compact</BandedMode>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters/>
+      <Query><![CDATA[WITH
+
+MEMBER [Measures].[VendorID] AS [Product].CURRENTMEMBER.uniqueName
+MEMBER [Measures].[Vendor] AS [Product].CURRENTMEMBER.Name
+MEMBER [Measures].[LineID] AS [Product].CURRENTMEMBER.PARENT.uniqueName
+MEMBER [Measures].[Line] AS [Product].CURRENTMEMBER.PARENT.Name
+
+SET [COLUMN_SET] AS {
+[Measures].[LineID], [Measures].[Line],
+ [Measures].[VendorID], [Measures].[Vendor]
+}
+SET [ROW_SET] AS {[Product].[Vendor].MEMBERS}
+
+SELECT
+  [COLUMN_SET] ON COLUMNS,
+  [ROW_SET] ON ROWS
+FROM [SteelWheelsSales]]]></Query>
+   </DataAccess>
+   <DataAccess access="public" connection="swQueryThree" id="swQueryThree" type="mdx">
+      <Name>swQueryThree</Name>
+      <BandedMode>compact</BandedMode>
+      <Cache duration="3600" enabled="true"/>
+      <Columns/>
+      <Parameters/>
+      <Query><![CDATA[WITH
+MEMBER [Measures].[ProductID] AS [Product].CURRENTMEMBER.uniqueName
+MEMBER [Measures].[Product] AS [Product].CURRENTMEMBER.Name
+MEMBER [Measures].[LineID] AS [Product].CURRENTMEMBER.PARENT.uniqueName
+MEMBER [Measures].[Line] AS [Product].CURRENTMEMBER.PARENT.Name
+MEMBER [Measures].[VendorID] AS [Product].CURRENTMEMBER.PARENT.PARENT.uniqueName
+MEMBER [Measures].[Vendor] AS [Product].CURRENTMEMBER.PARENT.PARENT.Name
+
+SET [COLUMN_SET] AS { 
+[Measures].[VendorID], [Measures].[Vendor], 
+[Measures].[LineID], [Measures].[Line],
+[Measures].[ProductID], [Measures].[Product] 
+}
+SET [ROW_SET] AS {[Product].[Product].MEMBERS}
+
+SELECT
+  [COLUMN_SET] ON COLUMNS,
+  [ROW_SET] ON ROWS
+FROM [SteelWheelsSales]]]></Query>
+   </DataAccess>
+</CDADescriptor>

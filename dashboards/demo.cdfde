@@ -16,6 +16,185 @@
     "typeDesc": "<i>Group</i>"
    },
    {
+    "id": "a76c2952-970f-9f3d-aac2-bf2979e2f1f8",
+    "parent": "SELECTORS",
+    "properties": [
+     {
+      "name": "name",
+      "type": "Id",
+      "value": "oldFilter"
+     },
+     {
+      "name": "title",
+      "type": "String",
+      "value": "Current component"
+     },
+     {
+      "name": "parameter",
+      "type": "Parameter",
+      "value": "${p:paramSelection}"
+     },
+     {
+      "name": "listeners",
+      "type": "Listeners",
+      "value": "[]"
+     },
+     {
+      "name": "parameters",
+      "type": "ValuesArray",
+      "value": "[]"
+     },
+     {
+      "name": "valueAsId",
+      "type": "Boolean",
+      "value": "false"
+     },
+     {
+      "name": "outputFormat",
+      "type": "outputFormatCustom",
+      "value": "highestID"
+     },
+     {
+      "name": "dataSource",
+      "type": "Datasource",
+      "value": "swQueryOne"
+     },
+     {
+      "name": "valuesArray",
+      "type": "ValuesArray",
+      "value": "[]"
+     },
+     {
+      "name": "priority",
+      "type": "Integer",
+      "value": 5
+     },
+     {
+      "name": "alwaysExpanded",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "multiselect",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "selectionLimit",
+      "type": "Integer",
+      "value": 200
+     },
+     {
+      "name": "pageSize",
+      "type": "Integer",
+      "value": "15"
+     },
+     {
+      "name": "showIcons",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "showButtonOnlyThis",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "useOverlay",
+      "type": "Boolean",
+      "value": "false"
+     },
+     {
+      "name": "showFilter",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "htmlObject",
+      "type": "HtmlObject",
+      "value": "${h:oldFilterObj}"
+     },
+     {
+      "name": "executeAtStart",
+      "type": "Boolean",
+      "value": "true"
+     },
+     {
+      "name": "preExecution",
+      "type": "JavaScript",
+      "value": ""
+     },
+     {
+      "name": "postExecution",
+      "type": "JavaScript",
+      "value": "function(){\nthis.manager.get('view').addScrollBar();\n} "
+     },
+     {
+      "name": "postFetch",
+      "type": "JavaScript",
+      "value": ""
+     },
+     {
+      "name": "preChange",
+      "type": "JavaScript",
+      "value": ""
+     },
+     {
+      "name": "postChange",
+      "type": "JavaScript",
+      "value": ""
+     },
+     {
+      "name": "postUpdate",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "renderRootHeader",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "renderRootSelection",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "renderRootFooter",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "renderGroupSelection",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "renderItemSelection",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "sortGroup",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "sortItem",
+      "type": "Array",
+      "value": "[]"
+     },
+     {
+      "name": "options",
+      "type": "JavaScript",
+      "value": "function options(){\n    return {\n        input: {\n           indexes: {\n               id: 0,\n               label:1,\n               parentId: Infinity,\n               parentLabel: Infinity\n           },\n           defaultModel:{\n               id: \"[Product].[Vendors].MEMBERS\"\n           }\n        },\n        component: {\n            Group: {\n                view: {\n                    scrollbar: {\n                        engine: \"none\"\n                    }\n                }\n            }\n        }\n    };\n} "
+     }
+    ],
+    "rowName": "Filter Component",
+    "type": "ComponentsFilterComponent",
+    "typeDesc": "Filter Component"
+   },
+   {
     "id": "a4e3a8df-55ca-e8cf-086e-37737c7babe5",
     "parent": "SELECTORS",
     "properties": [
@@ -27,7 +206,7 @@
      {
       "name": "title",
       "type": "String",
-      "value": "One Level"
+      "value": "Hacked component"
      },
      {
       "name": "parameter",
@@ -87,7 +266,7 @@
      {
       "name": "pageSize",
       "type": "Integer",
-      "value": "10"
+      "value": "15"
      },
      {
       "name": "showIcons",
@@ -187,7 +366,7 @@
      {
       "name": "options",
       "type": "JavaScript",
-      "value": "function options(){\n    return {\n        input: {\n           indexes: [{\n               id: 1,\n               label:2\n           }],\n           root: {\n               id: '[Product].[Vendor].MEMBERS'\n           }\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
+      "value": "function options(){\n    return {\n        input: {\n           indexes: [{\n               id: 0,\n               label:1\n           }],\n           root: {\n               id: '[Product].[Vendor].MEMBERS'\n           }\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
      }
     ],
     "rowName": "Scalable Filter Component",
@@ -296,7 +475,7 @@
      {
       "name": "executeAtStart",
       "type": "Boolean",
-      "value": "true"
+      "value": "false"
      },
      {
       "name": "preExecution",
@@ -367,185 +546,6 @@
       "name": "options",
       "type": "JavaScript",
       "value": "function options(){\n    return {\n        input: {\n            indexes: [{\n                id: 1,\n                label:2\n            }, {\n                id: 3,\n                label: 4\n            }],\n            root: {\n                id: \"[Product].[Line]\"\n            }\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
-     }
-    ],
-    "rowName": "Scalable Filter Component",
-    "type": "ComponentsScalableFilterComponent",
-    "typeDesc": "Scalable Filter Component"
-   },
-   {
-    "id": "6e97527c-3d46-a419-8ed6-7f7632b4125c",
-    "parent": "SELECTORS",
-    "properties": [
-     {
-      "name": "name",
-      "type": "Id",
-      "value": "filterThreeLevels"
-     },
-     {
-      "name": "title",
-      "type": "String",
-      "value": "Three Levels"
-     },
-     {
-      "name": "parameter",
-      "type": "Parameter",
-      "value": "${p:paramSelection}"
-     },
-     {
-      "name": "listeners",
-      "type": "Listeners",
-      "value": "[]"
-     },
-     {
-      "name": "parameters",
-      "type": "ValuesArray",
-      "value": "[]"
-     },
-     {
-      "name": "valueAsId",
-      "type": "Boolean",
-      "value": "false"
-     },
-     {
-      "name": "outputFormat",
-      "type": "outputFormatCustom",
-      "value": "scalable"
-     },
-     {
-      "name": "dataSource",
-      "type": "Datasource",
-      "value": "swQueryThree"
-     },
-     {
-      "name": "valuesArray",
-      "type": "ValuesArray",
-      "value": "[]"
-     },
-     {
-      "name": "priority",
-      "type": "Integer",
-      "value": 5
-     },
-     {
-      "name": "alwaysExpanded",
-      "type": "Boolean",
-      "value": "true"
-     },
-     {
-      "name": "multiselect",
-      "type": "Boolean",
-      "value": "true"
-     },
-     {
-      "name": "selectionLimit",
-      "type": "Integer",
-      "value": 200
-     },
-     {
-      "name": "pageSize",
-      "type": "Integer",
-      "value": "30"
-     },
-     {
-      "name": "showIcons",
-      "type": "Boolean",
-      "value": "true"
-     },
-     {
-      "name": "showButtonOnlyThis",
-      "type": "Boolean",
-      "value": "true"
-     },
-     {
-      "name": "useOverlay",
-      "type": "Boolean",
-      "value": "true"
-     },
-     {
-      "name": "showFilter",
-      "type": "Boolean",
-      "value": "true"
-     },
-     {
-      "name": "htmlObject",
-      "type": "HtmlObject",
-      "value": "${h:filterThreeObj}"
-     },
-     {
-      "name": "executeAtStart",
-      "type": "Boolean",
-      "value": "true"
-     },
-     {
-      "name": "preExecution",
-      "type": "JavaScript",
-      "value": ""
-     },
-     {
-      "name": "postExecution",
-      "type": "JavaScript",
-      "value": ""
-     },
-     {
-      "name": "postFetch",
-      "type": "JavaScript",
-      "value": ""
-     },
-     {
-      "name": "preChange",
-      "type": "JavaScript",
-      "value": ""
-     },
-     {
-      "name": "postChange",
-      "type": "JavaScript",
-      "value": ""
-     },
-     {
-      "name": "postUpdate",
-      "type": "Array",
-      "value": "[]"
-     },
-     {
-      "name": "renderRootHeader",
-      "type": "Array",
-      "value": "[]"
-     },
-     {
-      "name": "renderRootSelection",
-      "type": "Array",
-      "value": "[]"
-     },
-     {
-      "name": "renderRootFooter",
-      "type": "Array",
-      "value": "[]"
-     },
-     {
-      "name": "renderGroupSelection",
-      "type": "Array",
-      "value": "[]"
-     },
-     {
-      "name": "renderItemSelection",
-      "type": "Array",
-      "value": "[]"
-     },
-     {
-      "name": "sortGroup",
-      "type": "Array",
-      "value": "[]"
-     },
-     {
-      "name": "sortItem",
-      "type": "Array",
-      "value": "[]"
-     },
-     {
-      "name": "options",
-      "type": "JavaScript",
-      "value": "function options(){\n    return {\n        input: {\n            indexes: [{\n                id: 1,\n                label:2\n            }, {\n                id: 3,\n                label: 4\n            },{\n                id: 5,\n                label: 6\n            }],\n            root: {\n                id: \"[Product].[Line]\"\n            }\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
      }
     ],
     "rowName": "Scalable Filter Component",
@@ -1199,7 +1199,7 @@
      {
       "name": "query",
       "type": "CurrentMdxQuery",
-      "value": "WITH\n\nMEMBER [Measures].[VendorID] AS [Product].CURRENTMEMBER.uniqueName\nMEMBER [Measures].[Vendor] AS [Product].CURRENTMEMBER.Name\nMEMBER [Measures].[ElementName] AS [Product].[Vendor].uniqueName\n\nSET [COLUMN_SET] AS {\n[Measures].[VendorID], [Measures].[Vendor],\n[Measures].[ElementName]\n}\nSET [ROW_SET] AS {[Product].[Vendor].MEMBERS}\n\nSELECT\n [COLUMN_SET] ON COLUMNS,\n [ROW_SET] ON ROWS\nFROM [SteelWheelsSales]"
+      "value": "WITH\n\nMEMBER [Measures].[ProductID] AS [Product].CURRENTMEMBER.uniqueName\nMEMBER [Measures].[Product] AS [Product].CURRENTMEMBER.Name\n\nSET [COLUMN_SET] AS {\n[Measures].[ProductID], [Measures].[Product]\n}\nSET [ROW_SET] AS {[Product].[Product].MEMBERS}\n\nSELECT\n [COLUMN_SET] ON COLUMNS,\n [ROW_SET] ON ROWS\nFROM [SteelWheelsSales]"
      },
      {
       "name": "parameters",
@@ -1224,7 +1224,7 @@
      {
       "name": "output",
       "type": "IndexArray",
-      "value": "[]"
+      "value": "[\"1\",\"2\"]"
      },
      {
       "name": "outputMode",
@@ -1417,34 +1417,11 @@
    }
   ]
  },
- "filename": "/system/scalableSelection/dashboards/main.cdfde",
+ "filename": "/system/scalableSelection/dashboards/demo.cdfde",
  "layout": {
   "rows": [
    {
-    "id": "ea5b4ad0-cc55-f027-cc65-038fbb5ac469",
-    "parent": "UnIqEiD",
-    "properties": [
-     {
-      "name": "name",
-      "type": "Id",
-      "value": "css"
-     },
-     {
-      "name": "resourceCode",
-      "type": "Resource",
-      "value": ".filter-root-items-container.mCustomScrollbar {\n    height: 400px;\n    padding: 10px 0;\n}\n\n.filter-group-body {\n    margin: 0 10px;\n}\n\n.filter-group-label {\n    font-size: 16px;\n}\n\n.filter-group-invert {\n    margin: 0 30px;\n} "
-     },
-     {
-      "name": "resourceType",
-      "type": "Label",
-      "value": "Css"
-     }
-    ],
-    "type": "LayoutResourceCode",
-    "typeDesc": "Resource"
-   },
-   {
-    "id": "d6c87d92-3336-e5c1-0e1c-a159e8c773d2",
+    "id": "c0cb87c3-0f25-f0b8-3e9e-48e93882cbcc",
     "parent": "UnIqEiD",
     "properties": [
      {
@@ -1464,6 +1441,29 @@
      }
     ],
     "type": "LayoutResourceFile",
+    "typeDesc": "Resource"
+   },
+   {
+    "id": "ea5b4ad0-cc55-f027-cc65-038fbb5ac469",
+    "parent": "UnIqEiD",
+    "properties": [
+     {
+      "name": "name",
+      "type": "Id",
+      "value": "css"
+     },
+     {
+      "name": "resourceCode",
+      "type": "Resource",
+      "value": ".filter-root-items-container.mCustomScrollbar {\n    height: 400px;\n    padding: 10px 0;\n}\n\n.filter-group-body {\n    margin: 0 10px;\n}\n\n.filter-group-label {\n    font-size: 16px;\n}\n\n.filter-group-invert {\n    margin: 0 30px;\n    position: absolute;\n    top: 6px;\n    left: 50px;\n} "
+     },
+     {
+      "name": "resourceType",
+      "type": "Label",
+      "value": "Css"
+     }
+    ],
+    "type": "LayoutResourceCode",
     "typeDesc": "Resource"
    },
    {
@@ -1505,6 +1505,69 @@
     "typeDesc": "Row"
    },
    {
+    "id": "fd82f556-8d93-7f59-23dc-d9c04cd8d7d8",
+    "parent": "c62222d7-0bd5-3566-fabe-10b14bf02d4f",
+    "properties": [
+     {
+      "name": "name",
+      "type": "Id",
+      "value": "oldFilterObj"
+     },
+     {
+      "name": "bootstrapExtraSmall",
+      "type": "String",
+      "value": "12"
+     },
+     {
+      "name": "bootstrapSmall",
+      "type": "String",
+      "value": "6"
+     },
+     {
+      "name": "bootstrapMedium",
+      "type": "String",
+      "value": ""
+     },
+     {
+      "name": "bootstrapLarge",
+      "type": "String",
+      "value": ""
+     },
+     {
+      "name": "bootstrapCssClass",
+      "type": "String",
+      "value": ""
+     },
+     {
+      "name": "height",
+      "type": "Integer",
+      "value": ""
+     },
+     {
+      "name": "backgroundColor",
+      "type": "Color",
+      "value": ""
+     },
+     {
+      "name": "roundCorners",
+      "type": "RoundCorners",
+      "value": ""
+     },
+     {
+      "name": "textAlign",
+      "type": "TextAlign",
+      "value": ""
+     },
+     {
+      "name": "cssClass",
+      "type": "String",
+      "value": ""
+     }
+    ],
+    "type": "LayoutBootstrapColumn",
+    "typeDesc": "Column"
+   },
+   {
     "id": "78f0362a-91f0-ed14-5a1b-58440a3c2731",
     "parent": "c62222d7-0bd5-3566-fabe-10b14bf02d4f",
     "properties": [
@@ -1521,7 +1584,7 @@
      {
       "name": "bootstrapSmall",
       "type": "String",
-      "value": "4"
+      "value": "6"
      },
      {
       "name": "bootstrapMedium",
@@ -1584,70 +1647,7 @@
      {
       "name": "bootstrapSmall",
       "type": "String",
-      "value": "4"
-     },
-     {
-      "name": "bootstrapMedium",
-      "type": "String",
       "value": ""
-     },
-     {
-      "name": "bootstrapLarge",
-      "type": "String",
-      "value": ""
-     },
-     {
-      "name": "bootstrapCssClass",
-      "type": "String",
-      "value": ""
-     },
-     {
-      "name": "height",
-      "type": "Integer",
-      "value": ""
-     },
-     {
-      "name": "backgroundColor",
-      "type": "Color",
-      "value": ""
-     },
-     {
-      "name": "roundCorners",
-      "type": "RoundCorners",
-      "value": ""
-     },
-     {
-      "name": "textAlign",
-      "type": "TextAlign",
-      "value": ""
-     },
-     {
-      "name": "cssClass",
-      "type": "String",
-      "value": ""
-     }
-    ],
-    "type": "LayoutBootstrapColumn",
-    "typeDesc": "Column"
-   },
-   {
-    "id": "fd82f556-8d93-7f59-23dc-d9c04cd8d7d8",
-    "parent": "c62222d7-0bd5-3566-fabe-10b14bf02d4f",
-    "properties": [
-     {
-      "name": "name",
-      "type": "Id",
-      "value": "filterThreeObj"
-     },
-     {
-      "name": "bootstrapExtraSmall",
-      "type": "String",
-      "value": "12"
-     },
-     {
-      "name": "bootstrapSmall",
-      "type": "String",
-      "value": "4"
      },
      {
       "name": "bootstrapMedium",
