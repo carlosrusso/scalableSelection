@@ -52,29 +52,53 @@ define(['amd!cdf/lib/underscore'], function(_) {
           ]
       }
     }*/
-      
+
+    var exp = parseLevel(obj);
+
+    return '{' + exp + '}';
+
+  }
+
+
+  function parseLevel(obj) {
     var exp = '';
     var notExp = '';
     var notExists = false;
     var rootOp = getOperand(obj._);
 
     if (rootOp === 'isIn') {
-      // LEAF case      
+      // LEAF case
       exp = _.pluck(obj.values, 'v').join();
       if (obj.property === null && obj.values.length) {
-        exp += '.MEMBERS';
+        //exp += '.MEMBERS';
       }
+      return exp;
 
-    } else if (rootOp === 'and' || rootOp === 'or') {
+    } else if (rootOp === 'not') {
+      // there can only exist a NOT ISIN, at the leaf level
+
+      notExists = true;
+      var notOperand = obj.operand;
+
+      exp = notOperand.property;
+      notExp = _.pluck(notOperand.values, 'v').join();
+
+      return 'EXCEPT(' + exp + ', {' + notExp + '})';
+
+    } else if (rootOp === 'or') {
+
+      return '{' + _.map(obj.operands, parseLevel).join(',') + '}';
+
+    } else if (rootOp === 'and') {
       // AND Case
-      
+
       var expValues = [];
-      _.each(obj.operands, function(operand, idx) {        
+      _.each(obj.operands, function(operand, idx) {
         var op = getOperand(operand._);
 
-        if (op === 'isIn') {          
+        if (op === 'isIn') {
           expValues.push(_.pluck(operand.values, 'v'));
-        } else if (op === 'not') {          
+        } else if (op === 'not') {
           notExists = true;
           var notOperand = operand.operand;
 
@@ -83,21 +107,15 @@ define(['amd!cdf/lib/underscore'], function(_) {
       });
       exp = expValues.join();
 
-    } else if (rootOp === 'not') {
-      notExists = true;
-      var notOperand = obj.operand;
-
-      exp = notOperand.property;
-      notExp = _.pluck(notOperand.values, 'v').join();
-    }
-
 
     if (notExists) {
-      exp = 'EXCEPT(' + exp + '.MEMBERS, {' + notExp + '})';
+      exp = 'EXCEPT(' + exp + ' {' + notExp + '})';
     }
 
-    return '{' + exp + '}';
+    return exp;
+    }
 
+    throw TypeError('Unrecognized operator');
   }
 
   function getOperand(operand) {
@@ -106,6 +124,6 @@ define(['amd!cdf/lib/underscore'], function(_) {
 
 
   return {
-    transform: transform  
+    transform: transform
   };
 });
