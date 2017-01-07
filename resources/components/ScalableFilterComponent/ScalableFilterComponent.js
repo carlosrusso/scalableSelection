@@ -9,37 +9,22 @@ define([
   var SelectionStates = Model.SelectionStates;
 
   var templateInvert = [
-    ' <button class="filter-group-invert-button">Invert</button>',
-    ' <span>{{isSelected}}</span>'
+    '<button class="filter-group-invert-button">Invert</button>',
+    '<span>{{isSelected}}</span>'
   ].join('');
-
-  function run(partials, delay) {
-    var reaction = {
-      partials: partials
-    };
-
-    if (delay != null) {
-      reaction.delay = delay;
-    }
-
-    return reaction;
-  }
 
   return FilterComponent.extend({
     getConfiguration: function() {
       var configuration = this.base();
 
-      configuration.component.Root.view.main.render.push('groupInvert');
-      configuration.component.Root.view.partials.groupInvert = {
+      var partialGroupInvert = {
         selector: '.filter-group-invert:eq(0)',
         template: templateInvert
       };
-      configuration.component.Root.view.onModelChange.isSelected = run([
-        'selection',
-        'controls',
-        'header',
-        'groupInvert'
-      ]);
+
+      configuration.component.Root.view.partials.groupInvert = partialGroupInvert;
+      configuration.component.Root.view.main.render.push('groupInvert');
+      configuration.component.Root.view.onModelChange.isSelected.partials.push('groupInvert');
 
       configuration.component.Root.view.events["click .filter-group-invert-button:eq(0)"] = function(event) {
         invertSelection(this.model);
@@ -47,16 +32,9 @@ define([
         return false;
       };
 
-      configuration.component.Group.view.partials.groupInvert = {
-        selector: '.filter-group-invert:eq(0)',
-        template: templateInvert
-      };
-
+      configuration.component.Group.view.partials.groupInvert = partialGroupInvert;
       configuration.component.Group.view.main.render.push('groupInvert');
-      configuration.component.Group.view.onModelChange.isSelected = run([
-        'selection',
-        'groupInvert'
-      ]);
+      configuration.component.Group.view.onModelChange.isSelected.partials.push('groupInvert');
       configuration.component.Group.view.events["click .filter-group-invert-button:eq(0)"] = function(event) {
         invertSelection(this.model);
         this.model.update();
