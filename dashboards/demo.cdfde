@@ -187,7 +187,7 @@
      {
       "name": "options",
       "type": "JavaScript",
-      "value": "function options(){\n    return {\n        input: {\n           indexes: {\n               id: 0,\n               label:1,\n               parentId: Infinity,\n               parentLabel: Infinity\n           },\n           defaultModel:{\n               id: \"[Product].[Vendors].MEMBERS\"\n           }\n        },\n        component: {\n            Group: {\n                view: {\n                    scrollbar: {\n                        engine: \"none\"\n                    }\n                }\n            }\n        }\n    };\n} "
+      "value": "function options(){\n    return {\n        input: {\n           indexes: {\n               id: 0,\n               label:1,\n               parentId: Infinity,\n               parentLabel: Infinity\n           },\n           defaultModel:{\n               id: \"[Product].[Product].MEMBERS\"\n           }\n        },\n        component: {\n            Group: {\n                view: {\n                    scrollbar: {\n                        engine: \"none\"\n                    }\n                }\n            }\n        }\n    };\n} "
      }
     ],
     "rowName": "Filter Component",
@@ -366,7 +366,7 @@
      {
       "name": "options",
       "type": "JavaScript",
-      "value": "function options(){\n    return {\n        input: {\n           indexes: [{\n               id: 0,\n               label:1\n           }],\n           root: {\n               id: '[Product].[Vendor].MEMBERS'\n           }\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
+      "value": "function options(){\n    return {\n        input: {\n           indexes: [{\n               id: 0,\n               label:1\n           }],\n           root: {\n               id: '[Product].[Product].MEMBERS'\n           }\n        },\n        component: {\n            Group: {\n                options: {\n                    showGroupSelection: true\n                }\n            }\n        }\n    };\n} "
      }
     ],
     "rowName": "Scalable Filter Component",
